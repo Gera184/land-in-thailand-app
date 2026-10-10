@@ -280,10 +280,10 @@ const he: Content = {
     eyebrow: "ההבטחה שלנו",
     title: "ככה אנחנו *עובדים.*",
     items: [
-      { num: "I", title: "בעברית, מההתחלה ועד הסוף", body: "כל שיחה, כל מסמך וכל הודעה — בשפה שלכם. אנחנו מתרגמים את תאילנד בשבילכם." },
-      { num: "II", title: "איש קשר אחד", body: "לא מוקד ולא תורנות. מלווה אחד שמכיר את התיק שלכם ועונה בוואטסאפ." },
-      { num: "III", title: "מחיר סגור מראש", body: "יודעים בדיוק כמה תשלמו לפני שמתחילים. בלי תוספות באמצע הדרך." },
-      { num: "IV", title: "אנשים בשטח", body: "צוות שגר בתאילנד ומגיע איתכם פיזית לסיורי דירות, לבנק ולבית הספר." },
+      { num: "01", title: "בעברית, מההתחלה ועד הסוף", body: "כל שיחה, כל מסמך וכל הודעה — בשפה שלכם. אנחנו מתרגמים את תאילנד בשבילכם." },
+      { num: "02", title: "איש קשר אחד", body: "לא מוקד ולא תורנות. מלווה אחד שמכיר את התיק שלכם ועונה בוואטסאפ." },
+      { num: "03", title: "מחיר סגור מראש", body: "יודעים בדיוק כמה תשלמו לפני שמתחילים. בלי תוספות באמצע הדרך." },
+      { num: "04", title: "אנשים בשטח", body: "צוות שגר בתאילנד ומגיע איתכם פיזית לסיורי דירות, לבנק ולבית הספר." },
     ],
   },
   faq: {
@@ -514,10 +514,10 @@ const en: Content = {
     eyebrow: "Our promise",
     title: "This is how we *work.*",
     items: [
-      { num: "I", title: "In Hebrew, start to finish", body: "Every call, every document and every message — in your language. We translate Thailand for you." },
-      { num: "II", title: "One point of contact", body: "No call centre, no shifts. One person who knows your case and answers on WhatsApp." },
-      { num: "III", title: "A fixed price up front", body: "You know exactly what you'll pay before we start. No add-ons halfway through." },
-      { num: "IV", title: "People on the ground", body: "A team that lives in Thailand and comes with you in person to viewings, the bank and the school." },
+      { num: "01", title: "In Hebrew, start to finish", body: "Every call, every document and every message — in your language. We translate Thailand for you." },
+      { num: "02", title: "One point of contact", body: "No call centre, no shifts. One person who knows your case and answers on WhatsApp." },
+      { num: "03", title: "A fixed price up front", body: "You know exactly what you'll pay before we start. No add-ons halfway through." },
+      { num: "04", title: "People on the ground", body: "A team that lives in Thailand and comes with you in person to viewings, the bank and the school." },
     ],
   },
   faq: {

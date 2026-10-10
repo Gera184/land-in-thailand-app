@@ -147,10 +147,14 @@ export function ZoomParallax({ images, className, children }: ZoomParallaxProps)
 	const scale9 = useTransform(progress, [0, 1], [1, 9]);
 
 	const scales = [scale4, scale5, scale6, scale5, scale6, scale8, scale9];
+	// The collage starts nudged down so its top row clears the fixed header, and settles back to
+	// centre as the zoom begins (the final, fully zoomed frame is unchanged)
+	const headerClear = useTransform(progress, [0, 0.25], [40, 0]);
 
 	return (
 		<div ref={container} className="zp-track relative h-[300vh]">
 			<div className={cn('sticky top-0 h-screen overflow-hidden', className)}>
+				<m.div className="absolute inset-0" style={{ y: headerClear }}>
 				{images.map((image, index) => {
 					const scale = scales[index % scales.length];
 
@@ -173,6 +177,7 @@ export function ZoomParallax({ images, className, children }: ZoomParallaxProps)
 						</m.div>
 					);
 				})}
+				</m.div>
 				{typeof children === 'function' ? children(progress) : children}
 			</div>
 		</div>
