@@ -72,7 +72,7 @@ export const viewport: Viewport = {
 export function RootDocument({ locale, children }: { locale: Locale; children: React.ReactNode }) {
   const c = CONTENT[locale];
   return (
-    // suppressHydrationWarning: the head script below may add `curtain-arriving` before React hydrates
+    // suppressHydrationWarning: the head script below may add `curtain-arriving` / `menu-restore` before React hydrates
     <html
       lang={locale}
       dir={c.dir}
@@ -84,7 +84,7 @@ export function RootDocument({ locale, children }: { locale: Locale; children: R
             before first paint (no flash); AnchorNav sweeps it away. Self-clears after 4s. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var d=JSON.parse(sessionStorage.getItem("lit:curtain"));if(d&&Date.now()-d.t<8000&&!matchMedia("(prefers-reduced-motion: reduce)").matches){var r=document.documentElement;r.classList.add("curtain-arriving");setTimeout(function(){r.classList.remove("curtain-arriving")},4000)}}catch(e){}`,
+            __html: `try{var d=JSON.parse(sessionStorage.getItem("lit:curtain"));if(d&&Date.now()-d.t<8000&&!matchMedia("(prefers-reduced-motion: reduce)").matches){var r=document.documentElement;r.classList.add("curtain-arriving");setTimeout(function(){r.classList.remove("curtain-arriving")},4000)}}catch(e){}try{if(sessionStorage.getItem("lit-menu-open")==="1"&&matchMedia("(max-width: 959px)").matches){document.documentElement.classList.add("menu-restore");setTimeout(function(){document.documentElement.classList.remove("menu-restore")},4000)}}catch(e){}`,
           }}
         />
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="" />

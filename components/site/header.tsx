@@ -26,9 +26,11 @@ export function Header({
   const [hidden, setHidden] = React.useState(false);
   const [current, setCurrent] = React.useState<string | null>(null);
   const [menuOpen, setMenuOpen] = React.useState(false);
-  // Switching language from inside the menu reloads into the other page; the menu reopens
-  // there instantly (no wipe) so it reads as staying open.
+  // Switching language from inside the menu reloads into the other page. It reads like a
+  // departures board refreshing: items slide out here, the navy panel is painted on the new
+  // page's first frame (head script → html.menu-restore), and the new-language items rise in.
   const [menuInstant, setMenuInstant] = React.useState(false);
+  const [menuLeaving, setMenuLeaving] = React.useState(false);
   const menuButton = React.useRef<HTMLButtonElement>(null);
   const menuPanel = React.useRef<HTMLDivElement>(null);
   const hrefFor = (h: string) => (inner ? `${home}${h}` : h);
@@ -72,28 +74,38 @@ export function Header({
       /* storage blocked: the menu simply starts closed */
     }
     if (!reopen || window.matchMedia("(min-width: 960px)").matches) return;
+    const root = document.documentElement;
     const t = window.setTimeout(() => {
       // Clear the flag only once we've acted on it (dev StrictMode runs effects twice)
       try {
         sessionStorage.removeItem("lit-menu-open");
       } catch {}
-      setMenuInstant(true);
+      setMenuInstant(true); // panel is already on screen: no wipe
       setMenuOpen(true);
     }, 0);
-    // Re-enable the normal open/close animation after the first frame
-    const t2 = window.setTimeout(() => setMenuInstant(false), 120);
+    // Once React owns the open state, drop the pre-paint class so the items rise in
+    const t2 = window.setTimeout(() => root.classList.remove("menu-restore"), 40);
+    // Re-enable the normal wipe for later open/close
+    const t3 = window.setTimeout(() => setMenuInstant(false), 900);
     return () => {
       window.clearTimeout(t);
       window.clearTimeout(t2);
+      window.clearTimeout(t3);
     };
   }, []);
 
-  const keepMenuOpenAcrossSwitch = () => {
+  const switchLanguageFromMenu = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     try {
       sessionStorage.setItem("lit-menu-open", "1");
     } catch {
-      /* storage blocked: the new page opens with the menu closed */
+      return; // storage blocked: plain navigation, the new page opens with the menu closed
     }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    e.preventDefault();
+    const href = e.currentTarget.href;
+    setMenuLeaving(true); // items slide out; the panel stays
+    window.setTimeout(() => window.location.assign(href), 230);
   };
 
   // Close the menu if the screen grows to desktop width
@@ -229,7 +241,7 @@ export function Header({
     <div
       id="mobile-menu"
       ref={menuPanel}
-      className={cn("mobile-menu", menuOpen && "is-open", menuInstant && "is-instant")}
+      className={cn("mobile-menu", menuOpen && "is-open", menuInstant && "is-instant", menuLeaving && "is-leaving")}
       aria-hidden={!menuOpen}
       inert={!menuOpen}
     >
@@ -264,7 +276,7 @@ export function Header({
             href={langHref}
             hrefLang={c.header.switchLang}
             lang={c.header.switchLang}
-            onClick={keepMenuOpenAcrossSwitch}
+            onClick={switchLanguageFromMenu}
           >
             {c.header.languageLabel}
           </a>

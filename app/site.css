@@ -784,5 +784,20 @@ main > section, main > .marquee, .site-footer { overflow-x: clip; }
   transition: opacity .6s var(--ease-out) calc(.18s + var(--i, 0) * .05s), transform .7s var(--ease-out) calc(.18s + var(--i, 0) * .05s);
 }
 
-/* Menu restored after a language switch: appear already open, no wipe or stagger */
-.mobile-menu.is-instant, .mobile-menu.is-instant .mobile-menu-list li, .mobile-menu.is-instant .mobile-menu-foot { transition: none !important; }
+/* ---------- Language switch from the menu: a board refresh, not a page reload ----------
+   Old page: items slide up and out (the navy panel stays).
+   New page: the head script sets html.menu-restore before first paint, so the panel is already
+   there — header in its menu state, X button, items hidden — then the items rise in. */
+.mobile-menu.is-leaving .mobile-menu-list li, .mobile-menu.is-leaving .mobile-menu-foot {
+  opacity: 0; transform: translateY(-12px);
+  transition: opacity .18s ease, transform .22s cubic-bezier(.7, 0, .84, 0);
+}
+.mobile-menu.is-instant { transition: none !important; }
+:root.menu-restore { overflow: hidden; }
+:root.menu-restore .mobile-menu { clip-path: inset(0); visibility: visible; transition: none; }
+:root.menu-restore .mobile-menu .mobile-menu-list li,
+:root.menu-restore .mobile-menu .mobile-menu-foot { opacity: 0; transform: translateY(14px); transition: none; }
+:root.menu-restore .site-header { background: transparent; color: #fff; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; transform: none; }
+:root.menu-restore .menu-btn span { transition: none; }
+:root.menu-restore .menu-btn span:first-child { transform: translateY(3.75px) rotate(45deg); }
+:root.menu-restore .menu-btn span:last-child { transform: translateY(-3.75px) rotate(-45deg); }
