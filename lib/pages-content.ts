@@ -7,7 +7,7 @@
 import type { Locale } from "./content";
 
 export type PageSection = { id?: string; heading: string; paragraphs: string[]; list?: string[] };
-export type InfoPage = { eyebrow: string; title: string; intro: string; updated?: string; sections: PageSection[] };
+export type InfoPage = { eyebrow: string; /** Name of the page's in-page index (distinct from the footer's nav names) */ indexAria: string; title: string; intro: string; updated?: string; sections: PageSection[] };
 
 /** Fill these in before launch (shown on the Legal page) */
 export const ACCESSIBILITY_COORDINATOR = { he: "[שם רכז/ת הנגישות]", en: "[Accessibility coordinator name]" };
@@ -16,6 +16,7 @@ const UPDATED = { he: "עודכן לאחרונה: אוקטובר 2026", en: "Las
 const about: Record<Locale, InfoPage> = {
   he: {
     eyebrow: "עלינו",
+    indexAria: "תוכן העמוד",
     title: "אנחנו הצוות\nשמחכה לכם *בשער.*",
     intro:
       "Land In Thailand נולדה מתוך מעבר אחד שהיה צריך להיות פשוט יותר. אנחנו ישראלים שגרים בתאילנד, מכירים את הדרך מבפנים, ובנינו את השירות שהיינו רוצים שיחכה לנו כשנחתנו.",
@@ -47,6 +48,7 @@ const about: Record<Locale, InfoPage> = {
   },
   en: {
     eyebrow: "About us",
+    indexAria: "On this page",
     title: "We're the team\nwaiting for you *at the gate.*",
     intro:
       "Land In Thailand was born from one move that should have been simpler. We're Israelis living in Thailand who know the road from the inside, and we built the service we wished had been waiting for us when we landed.",
@@ -81,6 +83,7 @@ const about: Record<Locale, InfoPage> = {
 const legal: Record<Locale, InfoPage> = {
   he: {
     eyebrow: "מידע משפטי",
+    indexAria: "תוכן העמוד",
     title: "*משפטי,* בלי אותיות קטנות.",
     intro: "מדיניות הפרטיות, תנאי השימוש והצהרת הנגישות של האתר — בשפה ברורה.",
     updated: UPDATED.he,
@@ -131,6 +134,7 @@ const legal: Record<Locale, InfoPage> = {
   },
   en: {
     eyebrow: "Legal",
+    indexAria: "On this page",
     title: "*Legal,* without the small print.",
     intro: "The site's privacy policy, terms of use and accessibility statement — in plain language.",
     updated: UPDATED.en,

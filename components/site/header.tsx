@@ -45,6 +45,11 @@ export function Header({
     const panel = menuPanel.current;
     const focusables = () =>
       [...(panel?.querySelectorAll<HTMLElement>("a[href], button") ?? [])].filter((el) => !el.hasAttribute("disabled"));
+    // The page behind the menu leaves the tab order and the screen-reader cursor while it's open
+    const behind = [...document.querySelectorAll<HTMLElement>("#main, .site-footer, .mobile-cta, .skip")].filter(
+      (el) => !el.inert,
+    );
+    behind.forEach((el) => (el.inert = true));
     const t = window.setTimeout(() => focusables()[0]?.focus(), 60);
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMenuOpen(false);
@@ -60,6 +65,7 @@ export function Header({
     const button = menuButton.current;
     return () => {
       window.clearTimeout(t);
+      behind.forEach((el) => (el.inert = false));
       root.style.overflow = prevOverflow;
       document.removeEventListener("keydown", onKey);
       button?.focus({ preventScroll: true });
@@ -180,7 +186,11 @@ export function Header({
 
   return (
     <>
-    <header className={cn("site-header", solid && "is-scrolled", (hidden && !menuOpen) && "is-hidden", menuOpen && "is-menu-open")}>
+    <header
+      className={cn("site-header", solid && "is-scrolled", (hidden && !menuOpen) && "is-hidden", menuOpen && "is-menu-open")}
+      // A keyboard user tabbing back into the header brings it back into view
+      onFocus={() => setHidden(false)}
+    >
       <div className="wrap header-row">
         <a href={inner ? home : "#top"} className="brand" aria-label={c.header.homeAria}>
           <BrandMark />
@@ -206,7 +216,8 @@ export function Header({
             href={langHref}
             hrefLang={c.header.switchLang}
             lang={c.header.switchLang}
-            aria-label={c.header.switchAria}
+            // Starts with the visible text, so voice control can target it by what it shows
+            aria-label={`${c.header.switchLabel} · ${c.header.switchAria}`}
           >
             {c.header.switchLabel}
           </a>

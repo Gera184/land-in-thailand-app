@@ -40,9 +40,10 @@ export function SitePage({ locale }: { locale: Locale }) {
         <Visas c={c} />
         <Promises c={c} />
         <Faq c={c} />
+        {/* Fixed on screen; inside <main> so it belongs to a landmark */}
+        <MobileCta c={{ mobileCta: c.mobileCta, waDefault: c.waDefault }} />
       </main>
       <Footer c={c} home={locale === "he" ? "/" : "/en/"} />
-      <MobileCta c={{ mobileCta: c.mobileCta, waDefault: c.waDefault }} />
       <RevealObserver />
       <PassTilt />
       <AnchorNav homeLabel="Land in Thailand" />

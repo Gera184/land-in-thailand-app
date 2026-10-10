@@ -10,12 +10,14 @@ import { Rich } from "./rich";
 import { FooterClocks } from "./footer-bits";
 import BeamWordmarkFooter, { type SocialIcon } from "@/components/ui/beam-wordmark-footer";
 import { Eyebrow } from "./eyebrow";
+import { MarqueeToggle } from "./client-bits";
 
 type P = { c: Content };
 
 export function Marquee({ c }: P) {
   const items = [...c.cities.items, ...c.cities.items];
   return (
+    <div className="marquee-wrap">
     <div className="marquee" aria-hidden="true">
       <div className="marquee-track">
         {items.map((city, i) => (
@@ -26,6 +28,8 @@ export function Marquee({ c }: P) {
           </span>
         ))}
       </div>
+    </div>
+    <MarqueeToggle pause={c.cities.marqueePause} play={c.cities.marqueePlay} />
     </div>
   );
 }

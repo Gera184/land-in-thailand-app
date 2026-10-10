@@ -49,19 +49,19 @@ export type Content = {
     about: string;
     languageLabel: string;
   };
-  hero: { eyebrow: string; title: string; lede: string; cta: string; secondary: string; scrollAria: string; tileAlts: string[] };
+  hero: { eyebrow: string; title: string; lede: string; cta: string; secondary: string; scrollAria: string; videoPause: string; videoPlay: string; tileAlts: string[] };
   intro: { eyebrow: string; title: string; lead: string; pains: string[] };
   pass: { aria: string; label: string; from: string; to: string; stamp: string; meta: [string, string][] };
   services: { eyebrow: string; title: string; featureAlt: string; items: { icon: ServiceIcon; title: string; body: string }[] };
   journey: { eyebrow: string; title: string; lead: string; cta: string; steps: { when: string; title: string; body: string }[] };
-  cities: { eyebrow: string; title: string; lead: string; items: City[] };
+  cities: { eyebrow: string; title: string; lead: string; marqueePause: string; marqueePlay: string; items: City[] };
   cost: { eyebrow: string; title: string; lead: string; caption: string; note: string; items: { name: string; value: number; ref?: boolean }[] };
   pricing: { eyebrow: string; title: string; badge: string; plans: Plan[]; note: string; noteLink: string; noteMsg: string };
   visas: { eyebrow: string; title: string; lead: string; disclaimer: string; items: { code: string; title: string; body: string }[] };
   promises: { eyebrow: string; title: string; items: { num: string; title: string; body: string }[] };
   faq: { eyebrow: string; title: string; leadBefore: string; leadLink: string; items: { q: string; a: string }[] };
   final: { title: string; lede: string; cta: string };
-  mobileCta: { label: string; aria: string };
+  mobileCta: { label: string };
   footer: {
     tag: string;
     company: string;
@@ -132,6 +132,8 @@ const he: Content = {
     cta: "לתיאום שיחת ייעוץ",
     secondary: "איך זה עובד",
     scrollAria: "גללו כדי לנחות",
+    videoPause: "השהיית הסרטון",
+    videoPlay: "הפעלת הסרטון",
     tileAlts: [
       "לגונה טורקיז בין צוקי גיר בדרום תאילנד, וסירת זנב ארוך שטה בה",
       "בנגקוק בלילה",
@@ -192,6 +194,8 @@ const he: Content = {
     eyebrow: "חמישה יעדים",
     title: "איפה תרגישו *בבית?*",
     lead: "כל מקום בתאילנד הוא עולם אחר. הנה ההבדלים בקצרה — ובשיחת הייעוץ נתאים את המקום אליכם.",
+    marqueePause: "עצירת רצועת היעדים",
+    marqueePlay: "הפעלת רצועת היעדים",
     items: [
       {
         key: "bkk", code: "BKK", name: "בנגקוק", thai: "กรุงเทพฯ", tag: "עיר · קריירה · משפחות", photo: PHOTOS.bkk,
@@ -305,7 +309,7 @@ const he: Content = {
     lede: "שלחו לנו הודעה, ספרו לנו קצת על עצמכם, ונחזור אליכם עם הצעדים הראשונים.",
     cta: "כתבו לנו בוואטסאפ",
   },
-  mobileCta: { label: "שיחת ייעוץ בוואטסאפ", aria: "כתבו לנו בוואטסאפ" },
+  mobileCta: { label: "שיחת ייעוץ בוואטסאפ" },
   footer: {
     tag: "רילוקיישן לתאילנד, בעברית.",
     company: "החברה",
@@ -366,6 +370,8 @@ const en: Content = {
     cta: "Book a consultation",
     secondary: "How it works",
     scrollAria: "Scroll to land",
+    videoPause: "Pause video",
+    videoPlay: "Play video",
     tileAlts: [
       "A turquoise lagoon between limestone cliffs in southern Thailand, with a longtail boat crossing it",
       "Bangkok at night",
@@ -426,6 +432,8 @@ const en: Content = {
     eyebrow: "Five destinations",
     title: "Where will you feel *at home?*",
     lead: "Every place in Thailand is a different world. Here are the differences in short — and on the consultation call we'll match the place to you.",
+    marqueePause: "Pause the destinations ticker",
+    marqueePlay: "Play the destinations ticker",
     items: [
       {
         key: "bkk", code: "BKK", name: "Bangkok", thai: "กรุงเทพฯ", tag: "City · career · families", photo: PHOTOS.bkk,
@@ -539,7 +547,7 @@ const en: Content = {
     lede: "Send us a message, tell us a little about yourselves, and we'll get back to you with the first steps.",
     cta: "Message us on WhatsApp",
   },
-  mobileCta: { label: "Consultation on WhatsApp", aria: "Message us on WhatsApp" },
+  mobileCta: { label: "Consultation on WhatsApp" },
   footer: {
     tag: "Relocation to Thailand, for Israelis.",
     company: "Company",

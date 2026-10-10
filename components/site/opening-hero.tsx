@@ -1,8 +1,9 @@
 "use client";
 import * as React from "react";
-import { LazyMotion, domMin, m, useMotionValueEvent, useReducedMotion, useTransform, type MotionValue } from "framer-motion";
+import { LazyMotion, domMin, m, useMotionValueEvent, useTransform, type MotionValue } from "framer-motion";
 
 import { ZoomParallax } from "@/components/ui/zoom-parallax";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import type { Content } from "@/lib/content";
 import { waLink } from "@/lib/site";
 import { photo } from "@/lib/photos";
@@ -34,7 +35,7 @@ export function OpeningHero({ c }: { c: Pick<Content, "hero" | "waDefault"> }) {
   return (
     <section data-hero aria-labelledby="hero-title">
       <LazyMotion features={domMin} strict>
-        <ZoomParallax images={tiles} className="bg-[#0B1B22]">
+        <ZoomParallax images={tiles} className="bg-[#0B1B22]" videoLabels={{ pause: c.hero.videoPause, play: c.hero.videoPlay }}>
           {(progress) => <OpeningOverlay progress={progress} c={c} />}
         </ZoomParallax>
       </LazyMotion>
@@ -43,14 +44,25 @@ export function OpeningHero({ c }: { c: Pick<Content, "hero" | "waDefault"> }) {
 }
 
 function OpeningOverlay({ progress, c }: { progress: MotionValue<number>; c: Pick<Content, "hero" | "waDefault"> }) {
-  const reduced = useReducedMotion();
+  // Reduced motion shows the final frame at once, and `progress` is then a fixed value that never
+  // emits "change" — so read the media query directly. Not framer's useReducedMotion: that is
+  // already true on the first client render, which mismatches the server HTML, and React keeps
+  // the server's `inert` attribute (the CTAs stayed dead). This hook re-renders after hydration.
+  const reduced = usePrefersReducedMotion();
   const [scrolledIn, setScrolledIn] = React.useState(false);
-  useMotionValueEvent(progress, "change", (p) => setScrolledIn(p > 0.7));
+  const [hintGone, setHintGone] = React.useState(false);
+  useMotionValueEvent(progress, "change", (p) => {
+    setScrolledIn(p > 0.7);
+    setHintGone(p > 0.08);
+  });
   // CTAs stay out of the tab order until they're visible
-  const revealed = Boolean(reduced) || scrolledIn;
+  const revealed = reduced || scrolledIn;
+  // The scroll hint leaves the tab order once it has faded out
+  const hintHidden = reduced || hintGone;
 
   // First screen is photos only; the title arrives once the lagoon fills the screen
-  const shade = useTransform(progress, [0, 0.65, 1], [0, 0, 0.85]);
+  // The shade is at full strength by the time the title is (readable over the video); final frame unchanged
+  const shade = useTransform(progress, [0, 0.6, 0.85, 1], [0, 0, 0.85, 0.85]);
   const titleOpacity = useTransform(progress, [0, 0.65, 0.85], [0, 0, 1]);
   const titleY = useTransform(progress, [0.65, 0.85], [24, 0]);
   const detailsOpacity = useTransform(progress, [0.72, 0.95], [0, 1]);
@@ -89,7 +101,12 @@ function OpeningOverlay({ progress, c }: { progress: MotionValue<number>; c: Pic
         </m.div>
       </div>
 
-      <m.a href="#intro" className="scroll-hint" style={{ opacity: hintOpacity }} aria-label={c.hero.scrollAria}>
+      <m.a
+        href="#intro"
+        className="scroll-hint"
+        style={{ opacity: hintOpacity, visibility: hintHidden ? "hidden" : undefined }}
+        aria-label={c.hero.scrollAria}
+      >
         <i aria-hidden="true" />
       </m.a>
     </>

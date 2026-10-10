@@ -260,17 +260,17 @@ const CSS =
   ".bwf-soc svg{width:17px;height:17px}" +
   ".bwf-soc::after{content:'';position:absolute;inset:-7px}" + // 45px tap target, same look
   ".bwf-soc:hover,.bwf-soc:focus-visible{color:var(--bwf-ink);translate:0 -2px;background:linear-gradient(180deg,rgba(var(--bwf-acc),.32),rgba(var(--bwf-acc),.08));box-shadow:inset 0 0 0 1px rgba(var(--bwf-acc),.75),inset 0 1px 0 rgba(var(--bwf-ink-rgb),.3),0 10px 26px -8px rgba(var(--bwf-acc),.75)}" +
-  ".bwf-soc:focus-visible{outline:none}" +
-  ".bwf-tip{position:absolute;z-index:5;left:50%;top:calc(100% + 9px);translate:-50% -4px;white-space:nowrap;font-size:11px;line-height:1;padding:6px 8px;border-radius:4px;background:rgba(var(--bwf-acc),.95);color:#fff;opacity:0;pointer-events:none;transition:opacity .2s,translate .25s}" +
+  ".bwf-tip{position:absolute;z-index:5;left:50%;top:calc(100% + 9px);translate:-50% -4px;white-space:nowrap;font-size:11px;line-height:1;padding:6px 8px;border-radius:4px;background:rgba(var(--bwf-acc),.95);color:#0B1B22;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s,translate .25s}" +
   ".bwf-tip::after{content:'';position:absolute;left:50%;bottom:100%;margin-left:-4px;border:4px solid transparent;border-bottom-color:rgba(var(--bwf-acc),.95)}" +
   ".bwf-soc:hover .bwf-tip,.bwf-soc:focus-visible .bwf-tip{opacity:1;translate:-50% 0}" +
+  ".bwf-socials.tips-off .bwf-tip{opacity:0!important}" + // Esc dismisses the tooltip (WCAG 1.4.13)
   // Credits.
   ".bwf-credits{margin-top:21px;font-size:14px;line-height:1.5;color:var(--bwf-muted)}" +
   ".bwf-credits p+p{margin-top:12px}" +
   ".bwf-credits b{font-weight:400;color:var(--bwf-ink)}" +
   ".bwf-credits a::after{content:'';position:absolute;inset:-6px -2px}" +
   ".bwf-credits a{position:relative;color:var(--bwf-ink);background:linear-gradient(rgb(var(--bwf-acc)),rgb(var(--bwf-acc))) 0 100%/0 1px no-repeat;transition:background-size .35s cubic-bezier(.2,.8,.2,1),color .25s}" +
-  ".bwf-credits a:hover,.bwf-credits a:focus-visible{background-size:100% 1px;color:#fff;outline:none}" +
+  ".bwf-credits a:hover,.bwf-credits a:focus-visible{background-size:100% 1px;color:#fff}" +
   ".bwf-aside{margin-top:28px}" +
   // Link columns.
   ".bwf-links{margin-top:13px;display:flex;flex-direction:column;gap:0}" +
@@ -278,7 +278,7 @@ const CSS =
   ".bwf-link-t{display:inline-block;transition:translate .35s cubic-bezier(.2,.8,.2,1)}" +
   ".bwf-link::before{content:'';position:absolute;left:0;top:50%;width:6px;height:1px;margin-top:0;background:rgb(var(--bwf-acc));transform:scaleX(0);transform-origin:0 50%;transition:transform .35s cubic-bezier(.2,.8,.2,1)}" +
   ".bwf-link svg{width:12px;height:12px;opacity:0;translate:-6px 0;color:rgb(var(--bwf-acc));transition:opacity .25s,translate .35s cubic-bezier(.2,.8,.2,1)}" +
-  ".bwf-link:hover,.bwf-link:focus-visible{color:#fff;outline:none}" +
+  ".bwf-link:hover,.bwf-link:focus-visible{color:#fff}" +
   ".bwf-link:hover::before,.bwf-link:focus-visible::before{transform:scaleX(1)}" +
   ".bwf-link:hover .bwf-link-t,.bwf-link:focus-visible .bwf-link-t{translate:12px 0}" +
   ".bwf-link:hover svg,.bwf-link:focus-visible svg{opacity:1;translate:10px 0}" +
@@ -581,7 +581,12 @@ export default function BeamWordmarkFooter({
             © {year} {label}
           </p>
           {socials.length > 0 && (
-            <ul className="bwf-socials">
+            <ul
+              className="bwf-socials"
+              onKeyDown={(e) => e.key === "Escape" && e.currentTarget.classList.add("tips-off")}
+              onPointerLeave={(e) => e.currentTarget.classList.remove("tips-off")}
+              onBlur={(e) => e.currentTarget.classList.remove("tips-off")}
+            >
               {socials.map((s, i) => (
                 <li key={s.label + i} className="bwf-fade" style={delay()}>
                   <a

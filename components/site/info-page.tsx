@@ -32,7 +32,7 @@ export function InfoPage({ locale, page }: { locale: Locale; page: PageKey }) {
 
         {/* Legal: a small index of the three documents */}
         {page === "legal" && (
-          <nav className="wrap info-index" aria-label={p.eyebrow}>
+          <nav className="wrap info-index" aria-label={p.indexAria}>
             {p.sections
               .filter((s) => s.id)
               .map((s, i) => (

@@ -46,6 +46,26 @@ export function RevealObserver() {
   return null;
 }
 
+/** Pause / play for the destinations marquee (WCAG 2.2.2). Hidden with reduced motion, where it doesn't move. */
+export function MarqueeToggle({ pause, play }: { pause: string; play: string }) {
+  const [paused, setPaused] = React.useState(false);
+  const ref = React.useRef<HTMLButtonElement>(null);
+  const toggle = () => {
+    const marquee = ref.current?.parentElement?.querySelector(".marquee");
+    marquee?.classList.toggle("is-paused", !paused);
+    setPaused(!paused);
+  };
+  return (
+    <button ref={ref} type="button" className="media-toggle marquee-toggle" onClick={toggle} aria-label={paused ? play : pause}>
+      {paused ? (
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" /></svg>
+      ) : (
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor" /></svg>
+      )}
+    </button>
+  );
+}
+
 /** Sticky WhatsApp pill on phones: visible after the opening scene, hidden over the footer. */
 export function MobileCta({ c }: { c: Pick<Content, "mobileCta" | "waDefault"> }) {
   const [visible, setVisible] = React.useState(false);
@@ -81,8 +101,9 @@ export function MobileCta({ c }: { c: Pick<Content, "mobileCta" | "waDefault"> }
       href={waLink(c.waDefault)}
       target="_blank"
       rel="noopener"
-      aria-label={c.mobileCta.aria}
+      // Hidden (off-screen) it's out of the tab order and, via CSS visibility, the accessibility tree
       tabIndex={visible ? 0 : -1}
+      aria-hidden={!visible}
     >
       <WhatsAppIcon />
       <span>{c.mobileCta.label}</span>

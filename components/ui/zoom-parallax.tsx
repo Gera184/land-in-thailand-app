@@ -1,10 +1,11 @@
 'use client';
 
 import * as React from 'react';
-import { m, useMotionValue, useReducedMotion, useScroll, useTransform, type MotionValue } from 'framer-motion';
+import { m, useMotionValue, useScroll, useTransform, type MotionValue } from 'framer-motion';
 
 import { cn } from '@/lib/utils';
 import { useHeroVideo } from '@/hooks/use-hero-video';
+import { usePrefersReducedMotion } from '@/hooks/use-prefers-reduced-motion';
 
 /*
  * Based on the 21st.dev "zoom-parallax" component. Original API and layout are
@@ -33,6 +34,8 @@ interface ZoomParallaxProps {
 	className?: string;
 	/** Content layered over the images; a function receives scroll progress (0→1) */
 	children?: React.ReactNode | ((progress: MotionValue<number>) => React.ReactNode);
+	/** Accessible names for the video's pause / play control */
+	videoLabels?: { pause: string; play: string };
 }
 
 /*
@@ -60,10 +63,17 @@ const boxVars = (i: number) => {
 	} as React.CSSProperties;
 };
 
-function VideoTile({ image, index }: { image: Image; index: number }) {
-	const { ref, playing } = useHeroVideo(image.video?.desktop, image.video?.mobile, {
-		startOn: image.video?.startOn,
-	});
+function VideoTile({
+	image,
+	index,
+	videoRef,
+	playing,
+}: {
+	image: Image;
+	index: number;
+	videoRef: React.RefObject<HTMLVideoElement | null>;
+	playing: boolean;
+}) {
 	return (
 		<>
 			<picture>
@@ -77,7 +87,7 @@ function VideoTile({ image, index }: { image: Image; index: number }) {
 				/>
 			</picture>
 			<video
-				ref={ref}
+				ref={videoRef}
 				muted
 				playsInline
 				preload="none"
@@ -129,10 +139,15 @@ function PhotoTile({ image, index, load }: { image: Image; index: number; load: 
 	);
 }
 
-export function ZoomParallax({ images, className, children }: ZoomParallaxProps) {
+export function ZoomParallax({ images, className, children, videoLabels }: ZoomParallaxProps) {
 	const photosReady = useAfterLoad();
+	// The video tile's playback lives here so its pause control can sit outside the zooming layers
+	const videoImage = images.find((img) => img.video);
+	const video = useHeroVideo(videoImage?.video?.desktop, videoImage?.video?.mobile, {
+		startOn: videoImage?.video?.startOn,
+	});
 	const container = React.useRef(null);
-	const reduced = useReducedMotion();
+	const reduced = usePrefersReducedMotion();
 	const { scrollYProgress } = useScroll({
 		target: container,
 		offset: ['start start', 'end end'],
@@ -169,7 +184,7 @@ export function ZoomParallax({ images, className, children }: ZoomParallaxProps)
 								className="relative top-(--y) left-(--x) h-(--h) w-(--w) overflow-hidden bg-white/5 portrait:top-(--ty) portrait:left-(--tx) portrait:h-(--th) portrait:w-(--tw)"
 							>
 								{image.video ? (
-									<VideoTile image={image} index={index} />
+									<VideoTile image={image} index={index} videoRef={video.ref} playing={video.playing} />
 								) : (
 									<PhotoTile image={image} index={index} load={photosReady} />
 								)}
@@ -178,6 +193,20 @@ export function ZoomParallax({ images, className, children }: ZoomParallaxProps)
 					);
 				})}
 				</m.div>
+				{videoLabels && video.playing && !video.ended && (
+					<button
+						type="button"
+						className="media-toggle zp-video-toggle"
+						onClick={video.toggle}
+						aria-label={video.paused ? videoLabels.play : videoLabels.pause}
+					>
+						{video.paused ? (
+							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" /></svg>
+						) : (
+							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor" /></svg>
+						)}
+					</button>
+				)}
 				{typeof children === 'function' ? children(progress) : children}
 			</div>
 		</div>
