@@ -783,3 +783,6 @@ main > section, main > .marquee, .site-footer { overflow-x: clip; }
   opacity: 1; transform: none;
   transition: opacity .6s var(--ease-out) calc(.18s + var(--i, 0) * .05s), transform .7s var(--ease-out) calc(.18s + var(--i, 0) * .05s);
 }
+
+/* Menu restored after a language switch: appear already open, no wipe or stagger */
+.mobile-menu.is-instant, .mobile-menu.is-instant .mobile-menu-list li, .mobile-menu.is-instant .mobile-menu-foot { transition: none !important; }

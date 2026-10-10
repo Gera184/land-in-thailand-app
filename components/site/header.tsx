@@ -26,6 +26,9 @@ export function Header({
   const [hidden, setHidden] = React.useState(false);
   const [current, setCurrent] = React.useState<string | null>(null);
   const [menuOpen, setMenuOpen] = React.useState(false);
+  // Switching language from inside the menu reloads into the other page; the menu reopens
+  // there instantly (no wipe) so it reads as staying open.
+  const [menuInstant, setMenuInstant] = React.useState(false);
   const menuButton = React.useRef<HTMLButtonElement>(null);
   const menuPanel = React.useRef<HTMLDivElement>(null);
   const hrefFor = (h: string) => (inner ? `${home}${h}` : h);
@@ -60,6 +63,38 @@ export function Header({
       button?.focus({ preventScroll: true });
     };
   }, [menuOpen]);
+
+  React.useEffect(() => {
+    let reopen = false;
+    try {
+      reopen = sessionStorage.getItem("lit-menu-open") === "1";
+    } catch {
+      /* storage blocked: the menu simply starts closed */
+    }
+    if (!reopen || window.matchMedia("(min-width: 960px)").matches) return;
+    const t = window.setTimeout(() => {
+      // Clear the flag only once we've acted on it (dev StrictMode runs effects twice)
+      try {
+        sessionStorage.removeItem("lit-menu-open");
+      } catch {}
+      setMenuInstant(true);
+      setMenuOpen(true);
+    }, 0);
+    // Re-enable the normal open/close animation after the first frame
+    const t2 = window.setTimeout(() => setMenuInstant(false), 120);
+    return () => {
+      window.clearTimeout(t);
+      window.clearTimeout(t2);
+    };
+  }, []);
+
+  const keepMenuOpenAcrossSwitch = () => {
+    try {
+      sessionStorage.setItem("lit-menu-open", "1");
+    } catch {
+      /* storage blocked: the new page opens with the menu closed */
+    }
+  };
 
   // Close the menu if the screen grows to desktop width
   React.useEffect(() => {
@@ -194,7 +229,7 @@ export function Header({
     <div
       id="mobile-menu"
       ref={menuPanel}
-      className={cn("mobile-menu", menuOpen && "is-open")}
+      className={cn("mobile-menu", menuOpen && "is-open", menuInstant && "is-instant")}
       aria-hidden={!menuOpen}
       inert={!menuOpen}
     >
@@ -224,7 +259,13 @@ export function Header({
             <WhatsAppIcon />
             {c.header.whatsapp}
           </a>
-          <a className="mobile-menu-lang" href={langHref} hrefLang={c.header.switchLang} lang={c.header.switchLang}>
+          <a
+            className="mobile-menu-lang"
+            href={langHref}
+            hrefLang={c.header.switchLang}
+            lang={c.header.switchLang}
+            onClick={keepMenuOpenAcrossSwitch}
+          >
             {c.header.languageLabel}
           </a>
         </div>
