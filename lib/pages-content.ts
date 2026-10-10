@@ -123,7 +123,7 @@ const legal: Record<Locale, InfoPage> = {
       {
         heading: "נתקלתם בבעיית נגישות?",
         paragraphs: [
-          `רכז/ת הנגישות: ${ACCESSIBILITY_COORDINATOR.he}. אפשר לפנות בוואטסאפ או בטלפון 054-275-8427, או באימייל support@landinthailand.org. נשמח לקבל משוב ונטפל בכל פנייה בהקדם.`,
+          `רכז/ת הנגישות: ${ACCESSIBILITY_COORDINATOR.he}. אפשר לפנות בוואטסאפ או בטלפון 054-275-8427, או באימייל support@landinthailand.studio. נשמח לקבל משוב ונטפל בכל פנייה בהקדם.`,
           "ייתכן שחלק מהתוכן המגיע מצדדים שלישיים (כגון תמונות) אינו נגיש במלואו. אם נתקלתם בקושי — ספרו לנו.",
         ],
       },
@@ -173,7 +173,7 @@ const legal: Record<Locale, InfoPage> = {
       {
         heading: "Found an accessibility problem?",
         paragraphs: [
-          `Accessibility coordinator: ${ACCESSIBILITY_COORDINATOR.en}. Reach us on WhatsApp or by phone at 054-275-8427, or by email at support@landinthailand.org. We welcome feedback and will handle every request promptly.`,
+          `Accessibility coordinator: ${ACCESSIBILITY_COORDINATOR.en}. Reach us on WhatsApp or by phone at 054-275-8427, or by email at support@landinthailand.studio. We welcome feedback and will handle every request promptly.`,
           "Some third-party content (such as images) may not be fully accessible. If you run into any difficulty, please tell us.",
         ],
       },

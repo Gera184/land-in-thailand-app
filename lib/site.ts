@@ -3,10 +3,10 @@
 export const WA_NUMBER = "972542758427";
 export const PHONE_DISPLAY = "054-275-8427";
 export const PHONE_TEL = "+972542758427";
-export const EMAIL = "support@landinthailand.org";
+export const EMAIL = "support@landinthailand.studio";
 
-/** Assumed production domain (from the support email) — update if different */
-export const SITE_URL = "https://landinthailand.org";
+/** Production domain (GitHub Pages custom domain, see public/CNAME) */
+export const SITE_URL = "https://landinthailand.studio";
 
 export const waLink = (msg: string) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
 
