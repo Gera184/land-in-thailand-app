@@ -738,3 +738,48 @@ main > section, main > .marquee, .site-footer { overflow-x: clip; }
 .info-text ul { display: grid; gap: 10px; }
 .info-text li { position: relative; padding-inline-start: 26px; }
 .info-text li::before { content: ""; position: absolute; inset-inline-start: 0; top: .72em; width: 10px; height: 10px; border-radius: 50%; background: var(--aqua); box-shadow: 0 0 0 3px color-mix(in srgb, var(--aqua) 30%, transparent); }
+
+/* ---------- Mobile menu (below 960px): a departures board of the sections ---------- */
+.menu-btn {
+  display: inline-grid; place-content: center; gap: 6px; width: 44px; height: 44px; flex: none;
+  border-radius: 999px; background: transparent; border: 1px solid currentColor; cursor: pointer; color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+.menu-btn span { display: block; width: 18px; height: 1.5px; background: currentColor; border-radius: 2px; transition: transform .45s var(--ease-out); }
+.menu-btn.is-open span:first-child { transform: translateY(3.75px) rotate(45deg); }
+.menu-btn.is-open span:last-child { transform: translateY(-3.75px) rotate(-45deg); }
+@media (min-width: 960px) { .menu-btn, .mobile-menu { display: none !important; } }
+
+/* Header sits above the open panel, in its light-on-dark state */
+.site-header.is-menu-open { background: transparent; color: #fff; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.site-header.is-menu-open .btn-ghost-light { --fg: #fff; border-color: rgba(255, 255, 255, .45); --bg: rgba(255, 255, 255, .08); }
+
+.mobile-menu {
+  position: fixed; inset: 0; z-index: 45; background: var(--ink); color: var(--on-dark);
+  padding-top: 76px; overflow-y: auto; overscroll-behavior: contain;
+  clip-path: inset(0 0 100% 0); visibility: hidden;
+  transition: clip-path .55s cubic-bezier(.76, 0, .24, 1), visibility 0s linear .55s;
+}
+.mobile-menu.is-open { clip-path: inset(0); visibility: visible; transition: clip-path .55s cubic-bezier(.76, 0, .24, 1), visibility 0s; }
+.mobile-menu-inner { min-height: calc(100% - 20px); display: flex; flex-direction: column; justify-content: space-between; gap: 36px; padding-block: 28px calc(28px + env(safe-area-inset-bottom)); }
+
+.mobile-menu-list { display: grid; }
+.mobile-menu-list li { border-bottom: 1px solid rgba(255, 255, 255, .1); }
+.mobile-menu-list a {
+  display: flex; align-items: center; gap: 16px; min-height: 64px; padding-block: 10px;
+  text-decoration: none; color: var(--on-dark);
+}
+.mobile-menu-label { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.4rem, 1.6rem + 4vw, 3.2rem); line-height: 1; }
+.mobile-menu-list .gate { background: var(--aqua); color: var(--ink); }
+.mobile-menu-list .gate-quiet { background: transparent; color: var(--aqua); box-shadow: inset 0 0 0 1px rgba(94, 234, 212, .5); }
+.mobile-menu-list a:active .mobile-menu-label { color: var(--aqua); }
+
+.mobile-menu-foot { display: grid; gap: 16px; justify-items: stretch; }
+.mobile-menu-lang { justify-self: center; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; color: var(--on-dark-muted); font-weight: 600; text-decoration: none; border-radius: 999px; }
+
+/* Destinations rise in one after another, like a board updating */
+.mobile-menu-list li, .mobile-menu-foot { opacity: 0; transform: translateY(18px); transition: opacity .3s ease, transform .3s ease; }
+.mobile-menu.is-open .mobile-menu-list li, .mobile-menu.is-open .mobile-menu-foot {
+  opacity: 1; transform: none;
+  transition: opacity .6s var(--ease-out) calc(.18s + var(--i, 0) * .05s), transform .7s var(--ease-out) calc(.18s + var(--i, 0) * .05s);
+}

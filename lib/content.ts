@@ -42,6 +42,12 @@ export type Content = {
     switchHref: string;
     switchLang: Locale;
     switchAria: string;
+    /** This locale's home path ("/" or "/en/") */
+    home: string;
+    menu: string;
+    closeMenu: string;
+    about: string;
+    languageLabel: string;
   };
   hero: { eyebrow: string; title: string; lede: string; cta: string; secondary: string; scrollAria: string; tileAlts: string[] };
   intro: { eyebrow: string; title: string; lead: string; pains: string[] };
@@ -113,6 +119,11 @@ const he: Content = {
     switchHref: "/en/",
     switchLang: "en",
     switchAria: "English version",
+    home: "/",
+    menu: "תפריט",
+    closeMenu: "סגירת התפריט",
+    about: "עלינו",
+    languageLabel: "English",
   },
   hero: {
     eyebrow: "רילוקיישן לתאילנד · בעברית, מקצה לקצה",
@@ -342,6 +353,11 @@ const en: Content = {
     switchHref: "/",
     switchLang: "he",
     switchAria: "גרסה בעברית",
+    home: "/en/",
+    menu: "Menu",
+    closeMenu: "Close menu",
+    about: "About us",
+    languageLabel: "עברית",
   },
   hero: {
     eyebrow: "Relocation to Thailand · handled end to end",
