@@ -268,16 +268,8 @@ export function Header({
               </a>
             </li>
           ))}
-          <li style={{ "--i": c.header.nav.length } as React.CSSProperties}>
-            <a href={`${c.header.home}about/`} onClick={() => setMenuOpen(false)}>
-              <span className="gate gate-quiet" lang="en" aria-hidden="true">
-                {String(c.header.nav.length + 1).padStart(2, "0")}
-              </span>
-              <span className="mobile-menu-label">{c.header.about}</span>
-            </a>
-          </li>
         </ol>
-        <div className="mobile-menu-foot" style={{ "--i": c.header.nav.length + 1 } as React.CSSProperties}>
+        <div className="mobile-menu-foot" style={{ "--i": c.header.nav.length } as React.CSSProperties}>
           <a className="btn btn-primary btn-large" href={waLink(c.waDefault)} target="_blank" rel="noopener">
             <WhatsAppIcon />
             {c.header.whatsapp}

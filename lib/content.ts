@@ -46,7 +46,6 @@ export type Content = {
     home: string;
     menu: string;
     closeMenu: string;
-    about: string;
     languageLabel: string;
   };
   hero: { eyebrow: string; title: string; lede: string; cta: string; secondary: string; scrollAria: string; videoPause: string; videoPlay: string; tileAlts: string[] };
@@ -122,7 +121,6 @@ const he: Content = {
     home: "/",
     menu: "תפריט",
     closeMenu: "סגירת התפריט",
-    about: "עלינו",
     languageLabel: "English",
   },
   hero: {
@@ -360,7 +358,6 @@ const en: Content = {
     home: "/en/",
     menu: "Menu",
     closeMenu: "Close menu",
-    about: "About us",
     languageLabel: "עברית",
   },
   hero: {

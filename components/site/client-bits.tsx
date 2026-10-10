@@ -111,7 +111,10 @@ export function MobileCta({ c }: { c: Pick<Content, "mobileCta" | "waDefault"> }
   );
 }
 
-type Curtain = { phase: "in" | "out"; gate?: string; label: string } | null;
+type Curtain = { phase: "in" | "out" | "covered"; gate?: string; label: string } | null;
+
+/** sessionStorage key: a page navigating to another page's section hands the curtain over (see the head script in app/document.tsx) */
+const CURTAIN_HANDOFF = "lit:curtain";
 
 /** Brand palette for the shader: deep-water navy with aqua / lagoon / soft-white rings */
 const LAGOON_RINGS: ShaderPalette = {
@@ -159,6 +162,11 @@ const ARRIVE = 900; // destination section settles into place
  * the page jumps underneath, the panels exit off the top and the section rises into place. Jumping (rather than smooth-scrolling) means the opening zoom never replays.
  * Reduced motion and the skip link get a plain instant jump. Keeps the URL hash in sync
  * and moves focus to the destination for keyboard users.
+ *
+ * Links to a section on another page (e.g. the home page's #services from About / Legal) sweep
+ * the curtain in, hand it over through sessionStorage and navigate. The new page opens covered
+ * (head script), jumps straight to the section — never scrolling through the opening zoom — and
+ * sweeps the curtain away.
  */
 export function AnchorNav({ homeLabel }: { homeLabel: string }) {
   const [curtain, setCurtain] = React.useState<Curtain>(null);
@@ -167,6 +175,53 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
 
   React.useEffect(() => {
     const timers: number[] = [];
+    const root = document.documentElement;
+
+    // Arriving at /page/#section: land on the section directly. The head script turned smooth
+    // scrolling off before the browser's own jump to the hash; jump again once React has laid out.
+    const arriveId = decodeURIComponent(location.hash.slice(1));
+    const arriveTarget = arriveId ? document.getElementById(arriveId) : null;
+    let handoff: { t: number; label: string } | null = null;
+    try {
+      handoff = JSON.parse(sessionStorage.getItem(CURTAIN_HANDOFF) ?? "null");
+    } catch {
+      /* storage blocked or malformed: no handover */
+    }
+    const handedOver = !!handoff && root.classList.contains("curtain-arriving");
+    if (arriveTarget) {
+      window.dispatchEvent(new Event("site:navjump"));
+      arriveTarget.scrollIntoView({ behavior: "instant", block: "start" });
+    }
+    timers.push(
+      window.setTimeout(() => {
+        // Cleared only once acted on (dev StrictMode runs effects twice)
+        try {
+          sessionStorage.removeItem(CURTAIN_HANDOFF);
+        } catch {}
+        if (arriveTarget) arriveTarget.scrollIntoView({ behavior: "instant", block: "start" });
+        root.style.scrollBehavior = "";
+        if (!handedOver || !handoff) return;
+        setCurtain({ phase: "covered", label: handoff.label });
+        timers.push(
+          window.setTimeout(() => {
+            if (arriveTarget) arriveTarget.scrollIntoView({ behavior: "instant", block: "start" });
+            setCurtain((c) => (c ? { ...c, phase: "out" } : c));
+            root.classList.remove("curtain-arriving");
+            arriveTarget?.classList.add("is-arriving");
+            timers.push(window.setTimeout(() => arriveTarget?.classList.remove("is-arriving"), ARRIVE));
+            timers.push(window.setTimeout(() => setCurtain(null), CURTAIN_OUT));
+          }, CURTAIN_HOLD + 140),
+        );
+      }, 0),
+    );
+
+    // Back/forward cache: a page restored mid-departure must not stay covered
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (!e.persisted) return;
+      busy.current = false;
+      setCurtain(null);
+    };
+    window.addEventListener("pageshow", onPageShow);
 
     const arrive = (target: HTMLElement, id: string) => {
       // Tell the header this move is navigation, not a scroll-down (so it stays visible)
@@ -180,9 +235,31 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
 
     const onClick = (e: MouseEvent) => {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      const link = (e.target as Element).closest<HTMLAnchorElement>('a[href^="#"]');
-      if (!link) return;
-      const id = decodeURIComponent(link.hash.slice(1));
+      const anyLink = (e.target as Element).closest<HTMLAnchorElement>("a[href]");
+      if (!anyLink || anyLink.target) return;
+      const url = new URL(anyLink.href, location.href);
+      if (url.origin !== location.origin || !url.hash) return;
+
+      // A section on another page: curtain in, hand over, navigate
+      if (url.pathname !== location.pathname) {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return; // plain navigation
+        e.preventDefault();
+        if (busy.current) return;
+        busy.current = true;
+        const label =
+          anyLink.querySelector(".mobile-menu-label")?.textContent?.trim() || anyLink.textContent?.trim() || homeLabel;
+        setCurtain({ phase: "in", label });
+        try {
+          sessionStorage.setItem(CURTAIN_HANDOFF, JSON.stringify({ t: Date.now(), label }));
+        } catch {
+          /* storage blocked: the next page simply opens uncovered */
+        }
+        timers.push(window.setTimeout(() => location.assign(url.href), CURTAIN_IN + CURTAIN_HOLD));
+        return;
+      }
+
+      const link = anyLink;
+      const id = decodeURIComponent(url.hash.slice(1));
       const target = id ? document.getElementById(id) : null;
       if (!target) return;
       e.preventDefault();
@@ -226,6 +303,7 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
     document.addEventListener("click", onClick);
     return () => {
       document.removeEventListener("click", onClick);
+      window.removeEventListener("pageshow", onPageShow);
       timers.forEach((t) => window.clearTimeout(t));
     };
   }, [homeLabel]);
@@ -233,7 +311,12 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
   // Always mounted (hidden when idle) so the WebGL canvas is created once and reused
   return (
     <div
-      className={cn("nav-curtain", curtain?.phase === "in" && "is-in", curtain?.phase === "out" && "is-out")}
+      className={cn(
+        "nav-curtain",
+        curtain?.phase === "in" && "is-in",
+        curtain?.phase === "out" && "is-out",
+        curtain?.phase === "covered" && "is-covered",
+      )}
       aria-hidden="true"
     >
       <span className="curtain-layer curtain-layer-1" />
