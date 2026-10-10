@@ -241,7 +241,7 @@ const CSS =
   ".bwf-sky{position:absolute;inset:0;z-index:0;pointer-events:none}" +
   ".bwf-wash{position:absolute;inset:0;background:radial-gradient(120% 90% at 8% 0%,rgba(var(--bwf-acc),.2),transparent 55%),radial-gradient(90% 70% at 92% 8%,rgba(var(--bwf-acc),.14),transparent 60%),linear-gradient(180deg,rgba(var(--bwf-acc),.06),transparent 70%)}" +
   ".bwf-bands{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(var(--bwf-acc),.05) 0 1.6cqw,transparent 1.6cqw 4.2cqw);-webkit-mask-image:linear-gradient(100deg,#000 0%,transparent 55%);mask-image:linear-gradient(100deg,#000 0%,transparent 55%);opacity:.9}" +
-  ".bwf-beam{position:absolute;inset:0;filter:blur(calc(1px + 1.6cqw));background:linear-gradient(var(--bwf-ang),transparent calc(var(--bwf-b) - 11%),rgba(var(--bwf-acc),.10) calc(var(--bwf-b) - 5%),rgba(var(--bwf-acc),.34) var(--bwf-b),rgba(var(--bwf-acc),.08) calc(var(--bwf-b) + 4%),transparent calc(var(--bwf-b) + 9%)),linear-gradient(var(--bwf-ang),transparent calc(var(--bwf-b) - 34%),rgba(var(--bwf-acc),.10) calc(var(--bwf-b) - 27%),transparent calc(var(--bwf-b) - 20%))}" +
+  ".bwf-beam{position:absolute;inset:0;filter:blur(calc(1px + 1.6cqw));background:linear-gradient(var(--bwf-ang),transparent calc(var(--bwf-b) - 11%),rgba(var(--bwf-acc),.10) calc(var(--bwf-b) - 5%),rgba(var(--bwf-acc),.2) var(--bwf-b),rgba(var(--bwf-acc),.08) calc(var(--bwf-b) + 4%),transparent calc(var(--bwf-b) + 9%)),linear-gradient(var(--bwf-ang),transparent calc(var(--bwf-b) - 34%),rgba(var(--bwf-acc),.10) calc(var(--bwf-b) - 27%),transparent calc(var(--bwf-b) - 20%))}" +
   ".bwf-glow{position:absolute;inset:0;opacity:var(--bwf-g);background:radial-gradient(circle 26cqw at var(--bwf-px) var(--bwf-py),rgba(var(--bwf-acc),.16),transparent 70%)}" +
   ".bwf-grain{position:absolute;inset:0;opacity:.14;mix-blend-mode:overlay;background-image:url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")}" +
   // Layout.
@@ -260,16 +260,16 @@ const CSS =
   ".bwf-soc svg{width:17px;height:17px}" +
   ".bwf-soc::after{content:'';position:absolute;inset:-7px}" + // 45px tap target, same look
   ".bwf-soc:hover,.bwf-soc:focus-visible{color:var(--bwf-ink);translate:0 -2px;background:linear-gradient(180deg,rgba(var(--bwf-acc),.32),rgba(var(--bwf-acc),.08));box-shadow:inset 0 0 0 1px rgba(var(--bwf-acc),.75),inset 0 1px 0 rgba(var(--bwf-ink-rgb),.3),0 10px 26px -8px rgba(var(--bwf-acc),.75)}" +
-  ".bwf-tip{position:absolute;z-index:5;left:50%;top:calc(100% + 9px);translate:-50% -4px;white-space:nowrap;font-size:11px;line-height:1;padding:6px 8px;border-radius:4px;background:rgba(var(--bwf-acc),.95);color:#0B1B22;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s,translate .25s}" +
+  ".bwf-tip{position:absolute;z-index:5;left:50%;top:calc(100% + 7px);translate:-50% -4px;white-space:nowrap;font-size:11px;line-height:1;padding:6px 8px;border-radius:4px;background:rgba(var(--bwf-acc),.95);color:#0B1B22;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s,translate .25s}" +
   ".bwf-tip::after{content:'';position:absolute;left:50%;bottom:100%;margin-left:-4px;border:4px solid transparent;border-bottom-color:rgba(var(--bwf-acc),.95)}" +
-  ".bwf-soc:hover .bwf-tip,.bwf-soc:focus-visible .bwf-tip{opacity:1;translate:-50% 0}" +
+  ".bwf-soc:hover .bwf-tip,.bwf-soc:focus-visible .bwf-tip{opacity:1;translate:-50% 0;pointer-events:auto}" + // hoverable (WCAG 1.4.13)
   ".bwf-socials.tips-off .bwf-tip{opacity:0!important}" + // Esc dismisses the tooltip (WCAG 1.4.13)
   // Credits.
   ".bwf-credits{margin-top:21px;font-size:14px;line-height:1.5;color:var(--bwf-muted)}" +
   ".bwf-credits p+p{margin-top:12px}" +
   ".bwf-credits b{font-weight:400;color:var(--bwf-ink)}" +
   ".bwf-credits a::after{content:'';position:absolute;inset:-6px -2px}" +
-  ".bwf-credits a{position:relative;color:var(--bwf-ink);background:linear-gradient(rgb(var(--bwf-acc)),rgb(var(--bwf-acc))) 0 100%/0 1px no-repeat;transition:background-size .35s cubic-bezier(.2,.8,.2,1),color .25s}" +
+  ".bwf-credits a{position:relative;color:var(--bwf-ink);background:linear-gradient(rgb(var(--bwf-acc)),rgb(var(--bwf-acc))) 0 100%/100% 1px no-repeat;transition:background-size .35s cubic-bezier(.2,.8,.2,1),color .25s}" +
   ".bwf-credits a:hover,.bwf-credits a:focus-visible{background-size:100% 1px;color:#fff}" +
   ".bwf-aside{margin-top:28px}" +
   // Link columns.
@@ -474,7 +474,6 @@ export default function BeamWordmarkFooter({
     }
     let raf = 0
     let last = performance.now()
-    let t = last / 1000
     let b = 58
     let px = ptr.current.x
     let py = ptr.current.y
@@ -482,9 +481,8 @@ export default function BeamWordmarkFooter({
     const tick = (now: number) => {
       const dt = Math.min(0.1, (now - last) / 1000)
       last = now
-      t += dt
       const p = ptr.current
-      const idle = drift(t)
+      const idle = 58 // held still unless the pointer moves it
       const target = p.inside ? beamTarget(p.u) * 0.75 + idle * 0.25 : idle
       b = approach(b, target, 0.035, dt)
       px = approach(px, p.x, 0.16, dt)

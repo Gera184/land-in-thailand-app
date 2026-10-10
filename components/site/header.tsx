@@ -54,7 +54,11 @@ export function Header({
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMenuOpen(false);
       if (e.key === "Tab") {
-        const els = [menuButton.current, ...focusables()].filter(Boolean) as HTMLElement[];
+        // The visible header controls (logo, language, WhatsApp, close) plus the panel's links
+        const headerEls = [...document.querySelectorAll<HTMLElement>(".site-header a[href], .site-header button")].filter(
+          (el) => el.getClientRects().length > 0,
+        );
+        const els = [...headerEls, ...focusables()];
         const i = els.indexOf(document.activeElement as HTMLElement);
         const next = e.shiftKey ? (i <= 0 ? els.length - 1 : i - 1) : i === els.length - 1 ? 0 : i + 1;
         e.preventDefault();
@@ -68,7 +72,8 @@ export function Header({
       behind.forEach((el) => (el.inert = false));
       root.style.overflow = prevOverflow;
       document.removeEventListener("keydown", onKey);
-      button?.focus({ preventScroll: true });
+      const active = document.activeElement;
+      if (!active || active === document.body || panel?.contains(active)) button?.focus({ preventScroll: true });
     };
   }, [menuOpen]);
 

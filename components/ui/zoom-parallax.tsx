@@ -168,7 +168,9 @@ export function ZoomParallax({ images, className, children, videoLabels }: ZoomP
 
 	return (
 		<div ref={container} className="zp-track relative h-[300vh]">
-			<div className={cn('sticky top-0 h-screen overflow-hidden', className)}>
+			{/* Keyed on reduced motion: framer attaches native scroll-driven animations to the live
+			    timeline that a later switch to the final frame doesn't detach; remounting drops them */}
+			<div key={reduced ? 'still' : 'live'} className={cn('sticky top-0 h-screen overflow-hidden', className)}>
 				<m.div className="absolute inset-0" style={{ y: headerClear }}>
 				{images.map((image, index) => {
 					const scale = scales[index % scales.length];

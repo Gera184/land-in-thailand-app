@@ -67,8 +67,10 @@ button { font: inherit; color: inherit; }
 :root { --focus: var(--accent); }
 /* Dark surfaces switch the focus ring to aqua so it contrasts there too (WCAG 1.4.11) */
 .site-header:not(.is-scrolled), .mobile-menu, [data-hero], .marquee-wrap, .journey, .tile-feature, .tile-dark,
-.plan-hl, .site-footer, .skip, .mobile-cta { --focus: var(--aqua); }
+.plan-hl, .site-footer { --focus: var(--aqua); }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 6px; }
+/* Floating controls cross light and dark backgrounds: a two-tone ring that shows on both */
+.skip:focus-visible, .mobile-cta:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; box-shadow: 0 0 0 3px #fff, 0 16px 34px -12px rgba(0, 0, 0, .45); }
 /* Sections focused by in-page navigation (tabindex="-1") don't need a ring */
 [tabindex="-1"]:focus { outline: none; }
 
@@ -167,7 +169,7 @@ button { font: inherit; color: inherit; }
 @media (max-width: 959px) { .header-cta span { display: none; } .header-cta { padding-inline: 13px; } }
 
 /* ---------- Opening scene: see components/ui/zoom-parallax.tsx ---------- */
-.opening-shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(11, 27, 34, .85) 0%, rgba(11, 27, 34, .35) 50%, rgba(11, 27, 34, .45) 100%); }
+.opening-shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(11, 27, 34, .88) 0%, rgba(11, 27, 34, .62) 50%, rgba(11, 27, 34, .66) 100%); } /* text over the video ≥4.5:1 */
 .opening-copy { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #fff; padding: 96px var(--gutter) 64px; }
 .opening-details { display: flex; flex-direction: column; align-items: center; }
 .opening-copy .eyebrow { color: rgba(255, 255, 255, .9); text-shadow: 0 1px 12px rgba(0, 0, 0, .4); }
@@ -349,7 +351,7 @@ button { font: inherit; color: inherit; }
 .stop-when { font-size: .82rem; font-weight: 700; color: var(--aqua); letter-spacing: .04em; margin-top: 4px; }
 .stop h3 { font-family: var(--font-display); font-size: clamp(2.2rem, 1.8rem + 1.4vw, 2.9rem); line-height: 1; margin: 4px 0 8px; font-weight: 700; }
 .stop p:not(.stop-when) { color: var(--on-dark-muted); max-width: 46ch; }
-.stop > div { opacity: .72; transition: opacity .6s var(--ease-soft); } /* ≥4.5:1 even dimmed */
+.stop > div { opacity: .9; transition: opacity .6s var(--ease-soft); } /* ≥4.5:1 even dimmed, over the photo too */
 .stop.is-active > div { opacity: 1; }
 
 /* ---------- Cities ---------- */
@@ -544,6 +546,17 @@ details[open] > p { animation: open .55s var(--ease-out); }
   .bar-fill { transform: none; }
   .marquee-track { animation: none; }
   .marquee-toggle { display: none; }
+  /* The final frame, whatever the scroll-linked animations say */
+  .opening-title, .opening-details { opacity: 1 !important; transform: none !important; }
+  .opening-shade { opacity: 1 !important; }
+}
+/* Short screens (phones in landscape): the hero copy fits under the header */
+@media (max-height: 520px) {
+  .opening-copy { justify-content: flex-start; padding-block: 84px 12px; }
+  .hero-title { font-size: clamp(2.2rem, 11vh, 3.6rem); }
+  .hero-lede { margin-top: 10px; font-size: 1rem; }
+  .hero-actions { margin-top: 14px; }
+  .hero-actions .btn { min-height: 44px; padding-block: 10px; }
 }
 
 [lang="th"] { font-family: var(--font-thai); }

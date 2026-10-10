@@ -188,6 +188,15 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
       /* storage blocked or malformed: no handover */
     }
     const handedOver = !!handoff && root.classList.contains("curtain-arriving");
+    // While a cross-page curtain covers the screen, nothing under it can take focus
+    const pageParts = () => [...document.querySelectorAll<HTMLElement>("#main, .site-header, .site-footer, .skip")];
+    const setCovered = (on: boolean) => pageParts().forEach((el) => (el.inert = on));
+    // Keyboard and screen-reader users continue from the section they asked for
+    const focusTarget = (el: HTMLElement) => {
+      if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
+      el.focus({ preventScroll: true });
+    };
+    if (handedOver) setCovered(true);
     if (arriveTarget) {
       window.dispatchEvent(new Event("site:navjump"));
       arriveTarget.scrollIntoView({ behavior: "instant", block: "start" });
@@ -200,13 +209,18 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
         } catch {}
         if (arriveTarget) arriveTarget.scrollIntoView({ behavior: "instant", block: "start" });
         root.style.scrollBehavior = "";
-        if (!handedOver || !handoff) return;
+        if (!handedOver || !handoff) {
+          if (arriveTarget) focusTarget(arriveTarget);
+          return;
+        }
         setCurtain({ phase: "covered", label: handoff.label });
         timers.push(
           window.setTimeout(() => {
             if (arriveTarget) arriveTarget.scrollIntoView({ behavior: "instant", block: "start" });
             setCurtain((c) => (c ? { ...c, phase: "out" } : c));
             root.classList.remove("curtain-arriving");
+            setCovered(false);
+            if (arriveTarget) focusTarget(arriveTarget);
             arriveTarget?.classList.add("is-arriving");
             timers.push(window.setTimeout(() => arriveTarget?.classList.remove("is-arriving"), ARRIVE));
             timers.push(window.setTimeout(() => setCurtain(null), CURTAIN_OUT));
@@ -219,6 +233,7 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
     const onPageShow = (e: PageTransitionEvent) => {
       if (!e.persisted) return;
       busy.current = false;
+      setCovered(false);
       setCurtain(null);
     };
     window.addEventListener("pageshow", onPageShow);
@@ -246,6 +261,7 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
         e.preventDefault();
         if (busy.current) return;
         busy.current = true;
+        setCovered(true); // the page is leaving; nothing under the curtain takes focus
         const label =
           anyLink.querySelector(".mobile-menu-label")?.textContent?.trim() || anyLink.textContent?.trim() || homeLabel;
         setCurtain({ phase: "in", label });
@@ -304,6 +320,7 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
     return () => {
       document.removeEventListener("click", onClick);
       window.removeEventListener("pageshow", onPageShow);
+      setCovered(false);
       timers.forEach((t) => window.clearTimeout(t));
     };
   }, [homeLabel]);

@@ -62,7 +62,7 @@ function OpeningOverlay({ progress, c }: { progress: MotionValue<number>; c: Pic
 
   // First screen is photos only; the title arrives once the lagoon fills the screen
   // The shade is at full strength by the time the title is (readable over the video); final frame unchanged
-  const shade = useTransform(progress, [0, 0.6, 0.85, 1], [0, 0, 0.85, 0.85]);
+  const shade = useTransform(progress, [0, 0.6, 0.85, 1], [0, 0, 1, 1]);
   const titleOpacity = useTransform(progress, [0, 0.65, 0.85], [0, 0, 1]);
   const titleY = useTransform(progress, [0.65, 0.85], [24, 0]);
   const detailsOpacity = useTransform(progress, [0.72, 0.95], [0, 1]);
@@ -80,16 +80,12 @@ function OpeningOverlay({ progress, c }: { progress: MotionValue<number>; c: Pic
           </h1>
         </m.div>
 
-        <m.div
-          className="opening-details"
-          style={{ opacity: detailsOpacity, y: detailsY }}
-          inert={!revealed}
-          aria-hidden={!revealed}
-        >
+        <m.div className="opening-details" style={{ opacity: detailsOpacity, y: detailsY }}>
           <p className="hero-lede">
             {c.hero.lede}
           </p>
-          <div className="hero-actions">
+          {/* Out of the tab order until they are visible (the lede above is always announced) */}
+          <div className="hero-actions" inert={!revealed}>
             <a className="btn btn-primary" href={waLink(c.waDefault)} target="_blank" rel="noopener">
               <WhatsAppIcon />
               {c.hero.cta}
@@ -105,7 +101,9 @@ function OpeningOverlay({ progress, c }: { progress: MotionValue<number>; c: Pic
         href="#intro"
         className="scroll-hint"
         style={{ opacity: hintOpacity, visibility: hintHidden ? "hidden" : undefined }}
-        aria-label={c.hero.scrollAria}
+        // A pointer affordance only: tabbing onto it scrolled the hero and hid it under the focus
+        tabIndex={-1}
+        aria-hidden="true"
       >
         <i aria-hidden="true" />
       </m.a>

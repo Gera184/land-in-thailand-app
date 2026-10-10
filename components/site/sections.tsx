@@ -357,7 +357,7 @@ export function Footer({ c, home, onHome = true }: P & { home: string; onHome?: 
       company="Land In Thailand"
       background="#08161C"
       ink="#F2F8F8"
-      muted="#A8BDC4"
+      muted="#DCE8EB" // ≥4.5:1 even where the beam is brightest
       accent="#5EEAD4"
       wordTop="#1F5560"
       wordFoot="#08161C"
@@ -365,7 +365,8 @@ export function Footer({ c, home, onHome = true }: P & { home: string; onHome?: 
       fontWord='var(--font-karantina), "Arial Narrow", sans-serif'
       wordWeight={700}
       cut={0.1}
-      socials={SOCIALS.map((s) => ({
+      // Only networks with a real URL (no dead links in the tab order)
+      socials={SOCIALS.filter((s) => s.href).map((s) => ({
         label: s.name,
         href: s.href,
         icon: SOCIAL_ICONS[s.name] as SocialIcon | React.ReactNode,
