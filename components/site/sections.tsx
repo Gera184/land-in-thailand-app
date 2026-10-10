@@ -210,7 +210,7 @@ export function Pricing({ c }: P) {
                 className={cn("btn", p.highlight ? "btn-primary" : "btn-outline")}
                 href={waLink(p.msg)}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
               >
                 {p.highlight && <WhatsAppIcon />}
                 {p.cta}
@@ -220,7 +220,7 @@ export function Pricing({ c }: P) {
         </div>
         <p className="plans-note">
           {c.pricing.note}{" "}
-          <a href={waLink(c.pricing.noteMsg)} target="_blank" rel="noopener">{c.pricing.noteLink}</a>.
+          <a href={waLink(c.pricing.noteMsg)} target="_blank" rel="noopener noreferrer">{c.pricing.noteLink}</a>.
         </p>
       </div>
     </section>
@@ -290,7 +290,7 @@ export function Faq({ c }: P) {
             <Rich text={c.faq.title} />
           </h2>
           <p className="lead">
-            {c.faq.leadBefore} <a href={waLink(c.waDefault)} target="_blank" rel="noopener">{c.faq.leadLink}</a>.
+            {c.faq.leadBefore} <a href={waLink(c.waDefault)} target="_blank" rel="noopener noreferrer">{c.faq.leadLink}</a>.
           </p>
         </header>
         <div className="faq-list">
@@ -330,7 +330,7 @@ const SOCIAL_ICONS: Record<string, React.ReactNode> = {
       <path d="M9.3 8.4c.3-.4.6-.4.9-.4h.4l.9 2.1-.7.9c.5.9 1.1 1.6 2.1 2.1l.9-.7 2.1.9v.4c0 .3-.1.7-.5.9-.6.3-1.7.4-3.1-.4a8 8 0 0 1-2.7-2.7c-.8-1.5-.6-2.6-.3-3.1z" />
     </g>
   ),
-  Gmail: (
+  Email: (
     <g fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round">
       <rect x="3.25" y="5.5" width="17.5" height="13" rx="2" />
       <path d="M3.8 7.2 12 13.2l8.2-6" />
@@ -399,7 +399,7 @@ export function Footer({ c, home, onHome = true }: P & { home: string; onHome?: 
           <h2 className="footer-title">{c.final.title}</h2>
           <div className="footer-head-side">
             <p className="footer-lede">{c.final.lede}</p>
-            <a className="btn btn-primary btn-large" href={waLink(c.waDefault)} target="_blank" rel="noopener">
+            <a className="btn btn-primary btn-large" href={waLink(c.waDefault)} target="_blank" rel="noopener noreferrer">
               <WhatsAppIcon />
               {c.final.cta}
             </a>

@@ -114,7 +114,7 @@ export function SocialLinks({ socials, className, iconsOnly = false, ...props }:
               key={index}
               href={social.href}
               className={itemClass}
-              {...(external ? { target: "_blank", rel: "noopener" } : {})}
+              {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               {...a11y}
               {...handlers}
             >

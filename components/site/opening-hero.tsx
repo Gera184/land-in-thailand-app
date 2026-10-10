@@ -86,7 +86,7 @@ function OpeningOverlay({ progress, c }: { progress: MotionValue<number>; c: Pic
           </p>
           {/* Out of the tab order until they are visible (the lede above is always announced) */}
           <div className="hero-actions" inert={!revealed}>
-            <a className="btn btn-primary" href={waLink(c.waDefault)} target="_blank" rel="noopener">
+            <a className="btn btn-primary" href={waLink(c.waDefault)} target="_blank" rel="noopener noreferrer">
               <WhatsAppIcon />
               {c.hero.cta}
             </a>

@@ -2,15 +2,22 @@
  * Copy for the About and Legal pages, in Hebrew and English.
  *
  * ⚠ DRAFTS. The legal texts are starting templates for an Israeli business, not legal advice —
- *   have a lawyer review them before launch. Items in [square brackets] must be filled in by you.
+ *   have a lawyer review them before launch. Nothing in [square brackets] is published: fill in
+ *   the constants below and the matching sentences appear on the Legal page.
  */
 import type { Locale } from "./content";
 
 export type PageSection = { id?: string; heading: string; paragraphs: string[]; list?: string[] };
 export type InfoPage = { eyebrow: string; /** Name of the page's in-page index (distinct from the footer's nav names) */ indexAria: string; title: string; intro: string; updated?: string; sections: PageSection[] };
 
-/** Fill these in before launch (shown on the Legal page) */
-export const ACCESSIBILITY_COORDINATOR = { he: "[שם רכז/ת הנגישות]", en: "[Accessibility coordinator name]" };
+/** Fill these in (shown on the Legal page once filled; empty values are left out) */
+export const ACCESSIBILITY_COORDINATOR = { he: "", en: "" };
+/** Legal business name, registration (e.g. עוסק מורשה 123456789) and postal address */
+export const BUSINESS = {
+  he: { name: "", registration: "", address: "" },
+  en: { name: "", registration: "", address: "" },
+};
+const filled = (...parts: string[]) => parts.filter(Boolean).join(", ");
 const UPDATED = { he: "עודכן לאחרונה: אוקטובר 2026", en: "Last updated: October 2026" };
 
 const about: Record<Locale, InfoPage> = {
@@ -34,7 +41,7 @@ const about: Record<Locale, InfoPage> = {
         list: [
           "בעברית, מההודעה הראשונה ועד הדירה.",
           "איש קשר אחד שמכיר את התיק שלכם — לא מוקד.",
-          "מחיר סגור מראש, בלי תוספות באמצע הדרך.",
+          "מחיר ברור מראש, בלי תוספות שלא סוכמו מראש.",
           "אנשים בשטח, שמגיעים איתכם פיזית לסיורים, לבנק ולבית הספר.",
         ],
       },
@@ -66,7 +73,7 @@ const about: Record<Locale, InfoPage> = {
         list: [
           "In Hebrew, from the first message to the front door.",
           "One point of contact who knows your case — not a call centre.",
-          "A fixed price up front, with no add-ons halfway through.",
+          "A clear price up front, with no extras that weren't agreed in advance.",
           "People on the ground who come with you to viewings, the bank and the school.",
         ],
       },
@@ -80,6 +87,9 @@ const about: Record<Locale, InfoPage> = {
   },
 };
 
+const businessHe = filled(BUSINESS.he.name, BUSINESS.he.registration, BUSINESS.he.address);
+const businessEn = filled(BUSINESS.en.name, BUSINESS.en.registration, BUSINESS.en.address);
+
 const legal: Record<Locale, InfoPage> = {
   he: {
     eyebrow: "מידע משפטי",
@@ -92,42 +102,47 @@ const legal: Record<Locale, InfoPage> = {
         id: "privacy",
         heading: "מדיניות פרטיות",
         paragraphs: [
-          "האתר אינו כולל טפסים ואינו אוסף מידע אישי באופן אוטומטי. כשאתם פונים אלינו בוואטסאפ, בטלפון או באימייל, אנחנו משתמשים בפרטים שמסרתם — שם, פרטי קשר ופרטים על המעבר — רק כדי לטפל בפנייה ולספק את השירות.",
-          "איננו מוכרים או מעבירים מידע אישי לצדדים שלישיים, למעט ספקים הנדרשים לביצוע השירות (למשל משרדי הגירה, בעלי דירות או בתי ספר) ובהסכמתכם.",
-          "האתר טוען חלק מהתמונות משירות חיצוני (Unsplash), ולכן כתובת ה-IP של הדפדפן שלכם עשויה להיות מועברת אליו. האתר אינו משתמש בעוגיות (cookies) לצורכי מעקב או פרסום.",
-          "בהתאם לחוק הגנת הפרטיות, התשמ״א–1981, אתם רשאים לבקש לעיין במידע שנשמר עליכם, לתקנו או למחוק אותו — בפנייה אלינו בפרטי הקשר שלמטה.",
+          ...(businessHe ? [`האחראי למידע: ${businessHe}. פניות בנושא פרטיות: support@landinthailand.studio.`] : []),
+          "האתר אינו כולל טפסים, אינו משתמש בעוגיות (cookies) ואינו כולל כלי ניתוח או פרסום. עם זאת, כמו בכל אתר, שרתי האחסון (GitHub Pages של חברת Microsoft, ארה״ב) ושירות התמונות (Unsplash) מקבלים באופן טכני את כתובת ה-IP, סוג הדפדפן ופרטי הבקשה שלכם. האתר שומר בדפדפן, למשך הגלישה בלבד, הגדרות תצוגה טכניות (sessionStorage) לתפעול התפריט והמעברים; הן אינן נשלחות אלינו.",
+          "פנייה בוואטסאפ עוברת דרך שירות WhatsApp של חברת Meta, שחלים עליו תנאי השימוש ומדיניות הפרטיות שלו. מסירת פרטים אלינו היא מרצונכם ואינה חובה, אך בלעדיהם לא נוכל לטפל בפנייה.",
+          "המידע שתמסרו (שם, פרטי קשר, פרטי המעבר ובמידת הצורך מסמכים כגון דרכון) ישמש רק לטיפול בפנייה ולמתן השירות. נעביר מידע רק לגורמים הנדרשים לשירות (למשל משרדי הגירה, בעלי דירות, בתי ספר, בנקים וחברות ביטוח, ובכלל זה בתאילנד) ובהסכמתכם, ולכן הוא עשוי להיות מועבר ומעובד מחוץ לישראל. איננו מוכרים מידע אישי.",
+          "לא נשלח אליכם הודעות פרסומיות בלי הסכמה מפורשת מראש, ותוכלו לבקש הסרה בכל עת.",
+          "אנו שומרים את המידע רק כל עוד הוא נדרש למתן השירות או כנדרש בדין, ונוקטים אמצעי אבטחה סבירים. מומלץ לשלוח מסמכים רגישים כמו דרכון רק לפי הנחיותינו.",
+          "בהתאם לחוק הגנת הפרטיות, התשמ״א–1981, אתם רשאים לעיין במידע שנשמר עליכם, לבקש לתקנו או למחוק אותו. כתבו לנו ל-support@landinthailand.studio ונשיב תוך 30 ימים.",
         ],
       },
       {
         id: "terms",
         heading: "תנאי שימוש",
         paragraphs: [
-          "התוכן באתר — כולל מידע על ויזות, יוקר מחיה וערים — הוא כללי בלבד, אינו מהווה ייעוץ משפטי, מיסויי או הגירתי, ועשוי להשתנות. תנאי הויזות בתאילנד משתנים לעיתים קרובות ונבדקים מחדש בכל תיק.",
-          "המחירים המוצגים הם בשקלים ואינם כוללים אגרות ממשלתיות, טיסות ושכר דירה. היקף השירות והמחיר הסופי נקבעים בהסכם בכתב לפני תחילת העבודה.",
-          "Land In Thailand מלווה ומסייעת, אך ההחלטה על אישור ויזה, חוזה שכירות או קבלה לבית ספר נתונה בידי הגורם המוסמך, ואיננו יכולים להבטיח את תוצאתה.",
-          "על השימוש באתר ובשירותים חלים דיני מדינת ישראל, וסמכות השיפוט הבלעדית נתונה לבתי המשפט בתל אביב-יפו.",
+          "התוכן באתר — כולל מידע על ויזות, יוקר מחיה וערים — הוא כללי בלבד, נכון למועד כתיבתו ועשוי להשתנות. תנאי הויזות בתאילנד משתנים לעיתים קרובות ונבדקים מחדש בכל תיק.",
+          "איננו משרד עורכי דין, יועצי מס או סוכני ביטוח, ואיננו מספקים ייעוץ משפטי, מיסויי או ביטוחי. ההחלטה על אישור ויזה, חוזה שכירות או קבלה לבית ספר נתונה בידי הגורם המוסמך בלבד, ואיננו יכולים להבטיח את תוצאתה.",
+          "המחירים המוצגים הם בשקלים ואינם כוללים אגרות ממשלתיות, טיסות ושכר דירה. היקף השירות והמחיר הסופי נקבעים בהסכם בכתב לפני תחילת העבודה, ומחיר החבילה כולל את השירותים המפורטים בה בלבד.",
+          "ביטול עסקה: הסכם שנערך מרחוק (למשל בוואטסאפ או בטלפון) ניתן לבטל בהתאם לחוק הגנת הצרכן, התשמ״א–1981 ולתקנות הגנת הצרכן (ביטול עסקה), התשע״א–2010, בהודעה בכתב ל-support@landinthailand.studio. בביטול ייתכן ניכוי דמי ביטול כפי שהדין מתיר, וכן תשלום יחסי בעבור שירות שכבר ניתן לבקשתכם.",
+          "כל התכנים באתר (טקסטים, עיצוב, לוגו וסרטונים) שייכים ל-Land In Thailand או לבעלי הזכויות בהם, ואין להעתיקם ללא אישור בכתב. חלק מהוויזואלים נוצרו או שופרו בבינה מלאכותית והם להמחשה בלבד; חלק מהצילומים מ-Unsplash. Thailand Privilege ו-Zoom הם סימנים של בעליהם, ואין לנו קשר רשמי איתם או עם רשויות ההגירה.",
+          "על השימוש באתר ובשירותים חלים דיני מדינת ישראל.",
         ],
       },
       {
         id: "accessibility",
         heading: "הצהרת נגישות",
         paragraphs: [
-          "אנחנו רואים חשיבות בהנגשת האתר לכלל המשתמשים, כולל אנשים עם מוגבלות. האתר נבנה בהתאם לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע״ג–2013, ולתקן הישראלי ת״י 5568 המבוסס על הנחיות WCAG 2.0 ברמה AA.",
-          "בין ההתאמות שבוצעו:",
+          "אנחנו רואים חשיבות בהנגשת האתר לכלל המשתמשים, כולל אנשים עם מוגבלות, בהתאם לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע״ג–2013, ולתקן הישראלי ת״י 5568 המבוסס על הנחיות WCAG ברמה AA.",
+          "באוקטובר 2026 נבדק האתר בכלי בדיקה אוטומטיים (axe) ובבדיקה ידנית של ניווט מקלדת, ניגודיות, הגדלה והפחתת תנועה, בעברית ובאנגלית, במחשב ובנייד. בין ההתאמות שבוצעו:",
         ],
         list: [
           "ניווט מלא במקלדת, כולל קישור ״דילוג לתוכן״ ומיקוד נראה לעין.",
           "ניגודיות צבעים העומדת ברמה AA.",
           "טקסט חלופי לתמונות ותוויות לרכיבים אינטראקטיביים עבור קוראי מסך.",
-          "כיבוד הגדרת ״הפחתת תנועה״ במערכת ההפעלה — האנימציות מושבתות.",
+          "כפתורי עצירה לתוכן נע (רצועת היעדים והסרטון), וכיבוד הגדרת ״הפחתת תנועה״ במערכת ההפעלה.",
           "מבנה כותרות ותגיות סמנטיות, ותמיכה בהגדלת טקסט עד 200%.",
         ],
       },
       {
-        heading: "נתקלתם בבעיית נגישות?",
+        heading: "מגבלות ידועות ופנייה בנושא נגישות",
         paragraphs: [
-          `רכז/ת הנגישות: ${ACCESSIBILITY_COORDINATOR.he}. אפשר לפנות בוואטסאפ או בטלפון 054-275-8427, או באימייל support@landinthailand.studio. נשמח לקבל משוב ונטפל בכל פנייה בהקדם.`,
-          "ייתכן שחלק מהתוכן המגיע מצדדים שלישיים (כגון תמונות) אינו נגיש במלואו. אם נתקלתם בקושי — ספרו לנו.",
+          "האתר טרם נבדק עם קוראי מסך בפועל (כגון VoiceOver ו-NVDA). חלק מהתמונות מגיעות משירות חיצוני (Unsplash) וייתכן שאינן נגישות במלואן.",
+          `${ACCESSIBILITY_COORDINATOR.he ? `רכז/ת הנגישות: ${ACCESSIBILITY_COORDINATOR.he}. ` : ""}נתקלתם בבעיית נגישות? אפשר לפנות בוואטסאפ או בטלפון 054-275-8427, או באימייל support@landinthailand.studio. נשמח לקבל משוב ונטפל בכל פנייה בהקדם.`,
         ],
       },
     ],
@@ -143,42 +158,47 @@ const legal: Record<Locale, InfoPage> = {
         id: "privacy",
         heading: "Privacy policy",
         paragraphs: [
-          "This site has no forms and does not collect personal information automatically. When you contact us by WhatsApp, phone or email, we use the details you give us — name, contact details and information about your move — only to handle your enquiry and provide the service.",
-          "We don't sell or share personal information with third parties, except providers needed to deliver the service (such as immigration offices, landlords or schools) and with your consent.",
-          "Some images on the site load from an external service (Unsplash), so your browser's IP address may be sent to it. The site does not use cookies for tracking or advertising.",
-          "Under Israel's Protection of Privacy Law, 5741-1981, you may ask to see, correct or delete the information we hold about you — contact us using the details below.",
+          ...(businessEn ? [`Responsible for your information: ${businessEn}. Privacy requests: support@landinthailand.studio.`] : []),
+          "This site has no forms, uses no cookies and has no analytics or advertising tools. Like any website, though, our hosting (GitHub Pages, Microsoft, USA) and our image provider (Unsplash) technically receive your IP address, browser type and request details. The site also keeps technical display settings in your browser's session storage for the current visit only (to run the menu and page transitions); these are never sent to us.",
+          "Contacting us on WhatsApp goes through Meta's WhatsApp service, which has its own terms and privacy policy. Giving us your details is voluntary, but without them we can't handle your enquiry.",
+          "What you send us (name, contact details, details of your move and, where needed, documents such as a passport) is used only to handle your enquiry and deliver the service. We pass information only to parties needed for the service (such as immigration offices, landlords, schools, banks and insurers, including in Thailand) and with your consent, so it may be transferred and processed outside Israel. We don't sell personal information.",
+          "We won't send you promotional messages without your explicit prior consent, and you can opt out at any time.",
+          "We keep information only as long as the service needs it or the law requires, and apply reasonable security measures. Please send sensitive documents such as passports only as we instruct.",
+          "Under Israel's Protection of Privacy Law, 5741-1981, you may ask to see, correct or delete the information we hold about you. Write to support@landinthailand.studio and we'll reply within 30 days.",
         ],
       },
       {
         id: "terms",
         heading: "Terms of use",
         paragraphs: [
-          "Content on this site — including information on visas, cost of living and cities — is general only, is not legal, tax or immigration advice, and may change. Thai visa rules change often and are checked again for every case.",
-          "Prices are shown in shekels and do not include government fees, flights or rent. The scope of service and final price are set in a written agreement before work begins.",
-          "Land In Thailand guides and assists, but decisions on visas, leases or school admissions rest with the relevant authority, and we cannot guarantee their outcome.",
-          "Use of the site and services is governed by the laws of the State of Israel, and the courts of Tel Aviv-Jaffa have exclusive jurisdiction.",
+          "Content on this site — including information on visas, cost of living and cities — is general only, correct when written, and may change. Thai visa rules change often and are checked again for every case.",
+          "We are not a law firm, tax advisers or insurance agents, and we don't give legal, tax or insurance advice. Decisions on visas, leases or school admissions rest solely with the relevant authority, and we can't guarantee their outcome.",
+          "Prices are shown in shekels and don't include government fees, flights or rent. The scope of service and final price are set in a written agreement before work begins, and a package price covers only the services listed in it.",
+          "Cancellation: an agreement made at a distance (for example on WhatsApp or by phone) can be cancelled under Israel's Consumer Protection Law, 5741-1981 and the Consumer Protection (Cancellation of Transaction) Regulations, 5771-2010, by written notice to support@landinthailand.studio. A cancellation fee may be deducted as the law allows, together with a proportionate charge for services already provided at your request.",
+          "All content on this site (text, design, logo and video) belongs to Land In Thailand or its rights holders and may not be copied without written permission. Some visuals were created or enhanced with AI and are illustrative; some photos are from Unsplash. Thailand Privilege and Zoom are marks of their owners; we're not officially affiliated with them or with any immigration authority.",
+          "Use of the site and services is governed by the laws of the State of Israel.",
         ],
       },
       {
         id: "accessibility",
         heading: "Accessibility statement",
         paragraphs: [
-          "We want this site to be usable by everyone, including people with disabilities. It was built in line with Israel's Equal Rights for Persons with Disabilities (Service Accessibility Adjustments) Regulations, 5773-2013, and Israeli Standard 5568, based on WCAG 2.0 level AA.",
-          "Adjustments include:",
+          "We want this site to be usable by everyone, including people with disabilities, in line with Israel's Equal Rights for Persons with Disabilities (Service Accessibility Adjustments) Regulations, 5773-2013, and Israeli Standard 5568, based on WCAG level AA.",
+          "In October 2026 the site was tested with automated tools (axe) and manually for keyboard navigation, contrast, zoom and reduced motion, in Hebrew and English, on desktop and mobile. Adjustments include:",
         ],
         list: [
           "Full keyboard navigation, including a \"skip to content\" link and visible focus.",
           "Colour contrast that meets level AA.",
           "Alternative text for images and labels on interactive elements for screen readers.",
-          "Respect for the operating system's \"reduce motion\" setting — animations are turned off.",
+          "Pause buttons for moving content (the destinations ticker and the video), and respect for the operating system's \"reduce motion\" setting.",
           "Semantic headings and markup, and support for text zoom up to 200%.",
         ],
       },
       {
-        heading: "Found an accessibility problem?",
+        heading: "Known limitations and accessibility contact",
         paragraphs: [
-          `Accessibility coordinator: ${ACCESSIBILITY_COORDINATOR.en}. Reach us on WhatsApp or by phone at 054-275-8427, or by email at support@landinthailand.studio. We welcome feedback and will handle every request promptly.`,
-          "Some third-party content (such as images) may not be fully accessible. If you run into any difficulty, please tell us.",
+          "The site hasn't yet been tested with real screen readers (such as VoiceOver and NVDA). Some images come from an external service (Unsplash) and may not be fully accessible.",
+          `${ACCESSIBILITY_COORDINATOR.en ? `Accessibility coordinator: ${ACCESSIBILITY_COORDINATOR.en}. ` : ""}Found an accessibility problem? Reach us on WhatsApp or by phone at 054-275-8427, or by email at support@landinthailand.studio. We welcome feedback and will handle every request promptly.`,
         ],
       },
     ],

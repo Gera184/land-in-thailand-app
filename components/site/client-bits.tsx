@@ -100,7 +100,7 @@ export function MobileCta({ c }: { c: Pick<Content, "mobileCta" | "waDefault"> }
       className={cn("mobile-cta", visible && "is-visible")}
       href={waLink(c.waDefault)}
       target="_blank"
-      rel="noopener"
+      rel="noopener noreferrer"
       // Hidden (off-screen) it's out of the tab order and, via CSS visibility, the accessibility tree
       tabIndex={visible ? 0 : -1}
       aria-hidden={!visible}

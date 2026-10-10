@@ -72,7 +72,7 @@ export function Journey({ c }: { c: Pick<Content, "journey" | "waDefault"> }) {
           <p className="lead">
             {c.journey.lead}
           </p>
-          <a className="btn btn-primary" href={waLink(c.waDefault)} target="_blank" rel="noopener">
+          <a className="btn btn-primary" href={waLink(c.waDefault)} target="_blank" rel="noopener noreferrer">
             <WhatsAppIcon />
             {c.journey.cta}
           </a>

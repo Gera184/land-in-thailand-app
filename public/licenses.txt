@@ -1,0 +1,27 @@
+Land In Thailand — third-party notices
+======================================
+
+This website is built with open-source software. Their licences require
+these notices to be kept with redistributed copies.
+
+Software (MIT licence unless noted)
+- Next.js — © Vercel, Inc.
+- React, React DOM — © Meta Platforms, Inc. and affiliates
+- Framer Motion — © Framer B.V.
+- Tailwind CSS — © Tailwind Labs, Inc.
+- shadcn/ui — © shadcn
+- lucide-react — ISC licence, © Lucide Contributors
+- cn — MIT
+
+Interface components adapted from 21st.dev community components
+(zoom-parallax, shader-animation, beam-wordmark-footer), including a footer
+template by Kedhar (https://21st.dev/@kedhareswer).
+
+Fonts (SIL Open Font License 1.1, https://openfontlicense.org)
+- Karantina — © The Karantina Project Authors
+- IBM Plex Sans Hebrew — © IBM Corp.
+- Noto Sans Thai — © The Noto Project Authors
+
+Photos
+- Some photos are from Unsplash (https://unsplash.com) under the Unsplash
+  License. Some visuals were created or enhanced with AI.

@@ -231,7 +231,7 @@ export function Header({
             className="btn btn-small btn-ghost-light header-cta"
             href={waLink(c.waDefault)}
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
             aria-label={c.header.whatsapp}
           >
             <WhatsAppIcon />
@@ -275,7 +275,7 @@ export function Header({
           ))}
         </ol>
         <div className="mobile-menu-foot" style={{ "--i": c.header.nav.length } as React.CSSProperties}>
-          <a className="btn btn-primary btn-large" href={waLink(c.waDefault)} target="_blank" rel="noopener">
+          <a className="btn btn-primary btn-large" href={waLink(c.waDefault)} target="_blank" rel="noopener noreferrer">
             <WhatsAppIcon />
             {c.header.whatsapp}
           </a>

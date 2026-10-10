@@ -22,5 +22,5 @@ export const SOCIALS: { name: string; image: string; href?: string }[] = [
   { name: "TikTok", image: "/media/social/tiktok.svg", href: undefined },
   { name: "Facebook", image: "/media/social/facebook.svg", href: undefined },
   { name: "WhatsApp", image: "/media/social/whatsapp.svg", href: `https://wa.me/${WA_NUMBER}` },
-  { name: "Gmail", image: "/media/social/gmail.svg", href: `mailto:${EMAIL}` },
+  { name: "Email", image: "/media/social/gmail.svg", href: `mailto:${EMAIL}` },
 ];

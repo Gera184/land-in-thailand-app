@@ -166,7 +166,7 @@ const he: Content = {
     title: "כל מה שצריך כדי *לגור* שם,\nלא רק להגיע.",
     featureAlt: "בריכת אינסוף המשקיפה על מפרץ באי טרופי",
     items: [
-      { icon: "visa", title: "ויזה ומסמכים", body: "בוחרים איתכם את מסלול הויזה הנכון — DTV, לימודים, פרישה או Thailand Privilege — מכינים את המסמכים ומלווים את ההגשה עד האישור." },
+      { icon: "visa", title: "ויזה ומסמכים", body: "בוחרים איתכם את מסלול הויזה הנכון — DTV, לימודים, פרישה או Thailand Privilege — מכינים את המסמכים ומלווים את ההגשה והמעקב אחריה." },
       { icon: "home", title: "דירה או וילה", body: "סינון מוקדם לפי התקציב שלכם, סיורי צפייה עם נציג שלנו בשטח, משא ומתן ובדיקת חוזה לפני חתימה." },
       { icon: "school", title: "בתי ספר וגנים", body: "מיפוי בתי ספר בינלאומיים ודו־לשוניים באזור, תיאום סיורים, ריאיונות והרשמה." },
       { icon: "bank", title: "בנק, סים ותשלומים", body: "חשבון בנק תאילנדי, מספר טלפון מקומי ואפליקציות התשלום שכולם משתמשים בהן." },
@@ -229,10 +229,10 @@ const he: Content = {
   },
   cost: {
     eyebrow: "יוקר מחיה",
-    title: "אותה איכות חיים,\n*בערך חצי מחיר.*",
+    title: "איכות חיים גבוהה,\n*בעלות נמוכה יותר.*",
     lead: "הערכה גסה של הוצאה חודשית לזוג, כולל שכר דירה באזור מרכזי. משפחות עם בית ספר בינלאומי — הוסיפו שכר לימוד.",
     caption: "הוצאה חודשית משוערת לזוג, בשקלים",
-    note: "אמצע הטווח המשוער. המספרים משתנים לפי סגנון חיים ושער החליפין.",
+    note: "אמצע הטווח המשוער, להמחשה בלבד ולא התחייבות. המספרים משתנים לפי סגנון חיים ושער החליפין.",
     items: [
       { name: "תל אביב", value: 20000, ref: true },
       { name: "פוקט", value: 13000 },
@@ -244,7 +244,7 @@ const he: Content = {
   },
   pricing: {
     eyebrow: "מחירים",
-    title: "מחיר סגור מראש. *בלי הפתעות.*",
+    title: "מחיר ברור מראש. *בלי הפתעות.*",
     badge: "הכי מבוקש",
     plans: [
       {
@@ -268,7 +268,7 @@ const he: Content = {
     eyebrow: "מדריך ויזות קצר",
     title: "איזו ויזה *מתאימה לכם?*",
     lead: "תאילנד מציעה כמה דרכים לגור בה לאורך זמן. הנה התמונה הכללית — את ההתאמה המדויקת נעשה יחד.",
-    disclaimer: "תנאי הויזות בתאילנד משתנים לעיתים קרובות. המידע כאן כללי ואינו ייעוץ משפטי — בשיחה נבדוק את המצב העדכני.",
+    disclaimer: "תנאי הויזות בתאילנד משתנים לעיתים קרובות. המידע כאן כללי, נכון לאוקטובר 2026, ואינו ייעוץ משפטי — בשיחה נבדוק את המצב העדכני. ההחלטה על כל ויזה נתונה לרשויות תאילנד בלבד.",
     items: [
       { code: "DTV", title: "ויזת יעד לעובדים מרחוק", body: "ויזה רב־שנתית לעובדים מרחוק ולעצמאים עם לקוחות מחוץ לתאילנד, וגם למי שבא ללמוד למשל בישול או אגרוף תאילנדי. מאפשרת שהייה ארוכה בכל כניסה, ודורשת הוכחת יכולת כלכלית." },
       { code: "ED", title: "ויזת לימודים", body: "למי שלומד במוסד מוכר, למשל תאית בבית ספר לשפות. מתחדשת לאורך תקופת הלימודים." },
@@ -284,7 +284,7 @@ const he: Content = {
     items: [
       { num: "I", title: "בעברית, מההתחלה ועד הסוף", body: "כל שיחה, כל מסמך וכל הודעה — בשפה שלכם. אנחנו מתרגמים את תאילנד בשבילכם." },
       { num: "II", title: "איש קשר אחד", body: "לא מוקד ולא תורנות. מלווה אחד שמכיר את התיק שלכם ועונה בוואטסאפ." },
-      { num: "III", title: "מחיר סגור מראש", body: "יודעים בדיוק כמה תשלמו לפני שמתחילים. בלי תוספות באמצע הדרך." },
+      { num: "III", title: "מחיר ברור מראש", body: "יודעים בדיוק כמה תשלמו לפני שמתחילים. בלי תוספות שלא סוכמו מראש." },
       { num: "IV", title: "אנשים בשטח", body: "צוות שגר בתאילנד ומגיע איתכם פיזית לסיורי דירות, לבנק ולבית הספר." },
     ],
   },
@@ -403,7 +403,7 @@ const en: Content = {
     title: "Everything you need to *live* there,\nnot just arrive.",
     featureAlt: "An infinity pool overlooking a bay on a tropical island",
     items: [
-      { icon: "visa", title: "Visa and paperwork", body: "We choose the right visa route with you — DTV, education, retirement or Thailand Privilege — prepare the documents and stay with you until it's approved." },
+      { icon: "visa", title: "Visa and paperwork", body: "We choose the right visa route with you — DTV, education, retirement or Thailand Privilege — prepare the documents and stay with you through submission and follow-up." },
       { icon: "home", title: "Apartment or villa", body: "Pre-screening to your budget, viewings with our person on the ground, negotiation and a contract check before you sign." },
       { icon: "school", title: "Schools and kindergartens", body: "Mapping the international and bilingual schools in your area, arranging tours, interviews and enrolment." },
       { icon: "bank", title: "Bank, SIM and payments", body: "A Thai bank account, a local phone number and the payment apps everyone actually uses." },
@@ -466,10 +466,10 @@ const en: Content = {
   },
   cost: {
     eyebrow: "Cost of living",
-    title: "The same quality of life,\n*for about half the price.*",
+    title: "A great quality of life,\n*at a lower cost.*",
     lead: "A rough estimate of monthly spending for a couple, including rent in a central area. Families with an international school — add tuition.",
     caption: "Estimated monthly spending for a couple, in shekels",
-    note: "Middle of the estimated range. Figures vary with lifestyle and the exchange rate.",
+    note: "Middle of the estimated range, for illustration only and not a commitment. Figures vary with lifestyle and the exchange rate.",
     items: [
       { name: "Tel Aviv", value: 20000, ref: true },
       { name: "Phuket", value: 13000 },
@@ -481,7 +481,7 @@ const en: Content = {
   },
   pricing: {
     eyebrow: "Pricing",
-    title: "A fixed price up front. *No surprises.*",
+    title: "A clear price up front. *No surprises.*",
     badge: "Most popular",
     plans: [
       {
@@ -505,7 +505,7 @@ const en: Content = {
     eyebrow: "A short visa guide",
     title: "Which visa *fits you?*",
     lead: "Thailand offers several ways to live there long term. Here's the general picture — we'll find the exact fit together.",
-    disclaimer: "Thai visa rules change often. This is general information, not legal advice — we'll check the current rules on the call.",
+    disclaimer: "Thai visa rules change often. This is general information as of October 2026, not legal advice — we'll check the current rules on the call. Every visa decision rests solely with the Thai authorities.",
     items: [
       { code: "DTV", title: "Destination visa for remote workers", body: "A multi-year visa for remote workers and freelancers with clients outside Thailand, and for people coming to study things like cooking or Muay Thai. Allows long stays on each entry and requires proof of funds." },
       { code: "ED", title: "Education visa", body: "For students at a recognised institution, such as Thai at a language school. Renewable for the length of your studies." },
@@ -521,7 +521,7 @@ const en: Content = {
     items: [
       { num: "I", title: "In Hebrew, start to finish", body: "Every call, every document and every message — in your language. We translate Thailand for you." },
       { num: "II", title: "One point of contact", body: "No call centre, no shifts. One person who knows your case and answers on WhatsApp." },
-      { num: "III", title: "A fixed price up front", body: "You know exactly what you'll pay before we start. No add-ons halfway through." },
+      { num: "III", title: "A clear price up front", body: "You know exactly what you'll pay before we start. No extras that weren't agreed in advance." },
       { num: "IV", title: "People on the ground", body: "A team that lives in Thailand and comes with you in person to viewings, the bank and the school." },
     ],
   },
