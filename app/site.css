@@ -136,7 +136,7 @@ button { font: inherit; color: inherit; }
 .site-header.is-scrolled .btn-ghost-light { --fg: var(--ink); border-color: var(--ink); --bg: transparent; }
 .site-header.is-scrolled .btn-ghost-light:hover { --bg: var(--ink); --fg: var(--on-dark); }
 
-.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; min-width: 0; }
 .brand-mark { width: 34px; height: 34px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
 .brand-mark circle { fill: var(--coral); stroke: none; }
 .brand-word { font-family: var(--font-display); font-size: 1.85rem; font-weight: 700; letter-spacing: .01em; line-height: 1; direction: ltr; white-space: nowrap; }
@@ -147,7 +147,10 @@ button { font: inherit; color: inherit; }
 .nav a::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 1.5px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .4s var(--ease-out); }
 .nav a:hover::after { transform: scaleX(1); }
 @media (min-width: 960px) { .nav { display: flex; } }
-@media (max-width: 420px) { .header-cta span { display: none; } .header-cta { padding-inline: 13px; } }
+/* Below the desktop nav the menu button is shown and the menu has its own full WhatsApp button,
+   so the header CTA goes icon-only; with the label (421–959px) the row overflowed and pushed the
+   menu button off-screen on large phones such as the iPhone Pro Max. */
+@media (max-width: 959px) { .header-cta span { display: none; } .header-cta { padding-inline: 13px; } }
 
 /* ---------- Opening scene: see components/ui/zoom-parallax.tsx ---------- */
 .opening-shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(11, 27, 34, .85) 0%, rgba(11, 27, 34, .35) 50%, rgba(11, 27, 34, .45) 100%); }
@@ -516,7 +519,7 @@ details[open] > p { animation: open .55s var(--ease-out); }
 [lang="th"] { font-family: var(--font-thai); }
 
 /* ---------- Language switch ---------- */
-.header-actions { display: flex; align-items: center; gap: 10px; }
+.header-actions { display: flex; flex: none; align-items: center; gap: 10px; }
 .lang-switch {
   display: inline-grid; place-items: center; min-width: 44px; height: 44px; padding: 0 10px;
   border-radius: 999px; font-weight: 700; font-size: .95rem; text-decoration: none;
