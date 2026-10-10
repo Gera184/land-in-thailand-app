@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "bounce-easing",
+        "value": "cubic-bezier(.2, .9, .25, 1.2)",
+        "createdAt": "2026-10-09T17:54:08.262Z",
+        "reason": "Claude: verbatim easing from the user-supplied 21st.dev Beam Wordmark Footer (letter lift + hop is the component's intended playful motion); kept as the user pasted it"
+      }
+    ]
+  }
+}

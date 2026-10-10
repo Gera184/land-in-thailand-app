@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Land In Thailand — website
 
-## Getting Started
+Next.js (static export) + TypeScript + Tailwind CSS + shadcn/ui. Hebrew (right-to-left) at `/`, English (left-to-right) at `/en/`.
 
-First, run the development server:
+## Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Publish
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build      # writes the finished site to out/
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Upload the contents of `out/` to any static host (Netlify drag-and-drop, Vercel, Cloudflare Pages, GitHub Pages).
 
-## Learn More
+## Where things are
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| What | File |
+|---|---|
+| All page copy, in Hebrew and English (prices, cities, FAQ…) | `lib/content.ts` |
+| Phone, email, WhatsApp number, domain, social links | `lib/site.ts` |
+| About + Legal page copy (privacy, terms, accessibility statement) | `lib/pages-content.ts` |
+| Pages | `/` and `/en/` (home), `/about/`, `/legal/` (+ `/en/…`) |
+| Hebrew / English root layouts | `app/(he)/`, `app/(en)/en/` (shared shell in `app/document.tsx`) |
+| Opening scroll scene (photo collage zooms into the lagoon video) | `components/site/opening-hero.tsx` |
+| The reusable zoom-parallax component | `components/ui/zoom-parallax.tsx` |
+| Page sections | `components/site/*.tsx`, assembled in `components/site/site-page.tsx` |
+| Brand colours, fonts, page styles | `app/globals.css` (shadcn tokens), `app/site.css` |
+| Hero video + posters | `public/media/` |
+| Every still photo (swap Unsplash → your own here) | `lib/photos.ts` |
+| Prompts for generating matching photos | `docs/image-prompts.md` |
