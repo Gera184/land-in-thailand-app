@@ -4,7 +4,8 @@ import * as React from "react";
 type Options = {
 	/**
 	 * "load": play as soon as the page has loaded (default).
-	 * "scroll": buffer after load, but only start playing on the visitor's first scroll.
+	 * "scroll": download and play only on the visitor's first scroll (visitors who never
+	 *  scroll never download it; the poster shows meanwhile).
 	 */
 	startOn?: "load" | "scroll";
 };
@@ -81,14 +82,14 @@ export function useHeroVideo(desktopVideo?: string, mobileVideo?: string, { star
 			playWhenVisible();
 		};
 
-		// The video never competes with the first paint: it starts downloading once the
-		// browser is idle after load (or at the first scroll, whichever comes first).
+		// The video never competes with the first paint: "load" videos start downloading once
+		// the browser is idle after load; "scroll" videos only at the first scroll.
 		let idleId: number | undefined;
 		const scheduleIdle = () => {
 			const ric = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1500));
 			idleId = ric(() => {
 				attach();
-				if (startOn === "load") playWhenVisible();
+				playWhenVisible();
 			}, { timeout: 4000 });
 		};
 
@@ -96,8 +97,10 @@ export function useHeroVideo(desktopVideo?: string, mobileVideo?: string, { star
 			if (window.scrollY > 0) { attach(); playWhenVisible(); } // page restored mid-scroll
 			else window.addEventListener("scroll", onFirstScroll, { passive: true });
 		}
-		if (document.readyState === "complete") scheduleIdle();
-		else window.addEventListener("load", scheduleIdle, { once: true });
+		if (startOn === "load") {
+			if (document.readyState === "complete") scheduleIdle();
+			else window.addEventListener("load", scheduleIdle, { once: true });
+		}
 
 		return () => {
 			window.removeEventListener("load", scheduleIdle);

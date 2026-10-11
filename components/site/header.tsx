@@ -119,6 +119,21 @@ export function Header({
     window.setTimeout(() => window.location.assign(href), 230);
   };
 
+  // Back/forward cache: a page restored after switching language from the menu comes back
+  // mid-departure (items faded out). Bring the items back and drop the stale reopen flag.
+  React.useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (!e.persisted) return;
+      setMenuLeaving(false);
+      setMenuInstant(false);
+      try {
+        sessionStorage.removeItem("lit-menu-open");
+      } catch {}
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
+
   // Close the menu if the screen grows to desktop width
   React.useEffect(() => {
     const mq = window.matchMedia("(min-width: 960px)");

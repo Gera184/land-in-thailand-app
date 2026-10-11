@@ -183,7 +183,12 @@ button { font: inherit; color: inherit; }
 .hero-actions { margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; pointer-events: auto; }
 @media (max-width: 639px) { .hero-actions { width: 100%; } .hero-actions .btn { flex: 1 1 100%; } }
 .scroll-hint { position: absolute; bottom: calc(26px + env(safe-area-inset-bottom)); left: 50%; translate: -50% 0; display: flex; flex-direction: column; align-items: center; gap: 10px; color: rgba(255, 255, 255, .8); font-size: .85rem; font-weight: 600; letter-spacing: .06em; }
-.zp-video-toggle { position: absolute; z-index: 5; inset-inline-end: 16px; bottom: calc(20px + env(safe-area-inset-bottom)); }
+.zp-video-toggle {
+  position: absolute; z-index: 5; inset-inline-end: 16px;
+  /* The stage is 100vh tall; on iOS Safari its bottom sits under the toolbar while the toolbar
+     shows, so lift the button by the toolbar's height (100vh − 100svh) */
+  bottom: calc(20px + env(safe-area-inset-bottom) + (100vh - 100svh));
+}
 .scroll-hint::before { content: ""; position: absolute; inset: -6px -21px; } /* 44px tap target */
 .scroll-hint i { width: 1.5px; height: 34px; background: linear-gradient(rgba(255, 255, 255, .8), transparent); animation: hint 2.2s var(--ease-soft) infinite; transform-origin: top; }
 @keyframes hint { 0% { transform: scaleY(0); opacity: 1; } 70% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
@@ -499,7 +504,7 @@ details[open] > p { animation: open .55s var(--ease-out); }
 @media (min-width: 900px) { .footer-head { grid-template-columns: 1.5fr 1fr; align-items: end; gap: 56px; padding-bottom: 48px; } }
 .footer-title { font-family: var(--font-display); font-weight: 700; line-height: .9; font-size: clamp(3.4rem, 1.6rem + 6.4vw, 7.4rem); text-wrap: balance; color: var(--on-dark); }
 .footer-head-side { display: grid; gap: 22px; justify-items: start; }
-.footer-lede { color: var(--on-dark-muted); font-size: clamp(1.05rem, 1rem + .3vw, 1.2rem); max-width: 40ch; }
+.footer-lede { color: #D8E6EA; /* ≥4.5:1 even over the brightest beam glow */ font-size: clamp(1.05rem, 1rem + .3vw, 1.2rem); max-width: 40ch; }
 @media (max-width: 639px) { .footer-head-side .btn { width: 100%; } }
 .site-footer .bwf-credits b { color: var(--on-dark); }
 
@@ -849,3 +854,14 @@ main > section, main > .marquee-wrap, .site-footer { overflow-x: clip; }
 :root.menu-restore .menu-btn span { transition: none; }
 :root.menu-restore .menu-btn span:first-child { transform: translateY(3.75px) rotate(45deg); }
 :root.menu-restore .menu-btn span:last-child { transform: translateY(-3.75px) rotate(-45deg); }
+
+/* ---------- 404 (app/global-not-found.tsx) ---------- */
+.nf { min-height: 100svh; display: grid; place-items: center; align-content: center; gap: 48px; padding: 96px var(--gutter) 64px; background: var(--ink); color: var(--on-dark); text-align: center; --focus: var(--aqua); }
+.nf-brand { display: inline-flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
+.nf-board { display: grid; justify-items: center; gap: 22px; max-width: 34rem; }
+.nf-code { font-family: var(--font-display); font-weight: 700; font-size: clamp(5rem, 4rem + 8vw, 9rem); line-height: .8; color: var(--aqua); letter-spacing: .04em; }
+.nf .h2 { color: var(--on-dark); }
+.nf .h2 em { color: var(--aqua); }
+.nf-lead { color: var(--on-dark-muted); font-size: 1.1rem; }
+.nf-en { margin-top: 18px; padding-top: 22px; border-top: 1px solid rgba(255, 255, 255, .14); color: var(--on-dark-muted); display: grid; gap: 6px; }
+.nf-en a { color: var(--aqua); font-weight: 700; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }

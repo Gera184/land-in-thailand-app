@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://landinthailand.studio/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://landinthailand.studio/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://landinthailand.studio/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://landinthailand.studio/"/>
+    <lastmod>2026-10-11</lastmod>
+  </url>
+  <url>
+    <loc>https://landinthailand.studio/en/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://landinthailand.studio/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://landinthailand.studio/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://landinthailand.studio/"/>
+    <lastmod>2026-10-11</lastmod>
+  </url>
+  <url>
+    <loc>https://landinthailand.studio/about/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://landinthailand.studio/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://landinthailand.studio/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://landinthailand.studio/about/"/>
+    <lastmod>2026-10-11</lastmod>
+  </url>
+  <url>
+    <loc>https://landinthailand.studio/en/about/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://landinthailand.studio/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://landinthailand.studio/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://landinthailand.studio/about/"/>
+    <lastmod>2026-10-11</lastmod>
+  </url>
+  <url>
+    <loc>https://landinthailand.studio/legal/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://landinthailand.studio/legal/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://landinthailand.studio/en/legal/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://landinthailand.studio/legal/"/>
+    <lastmod>2026-10-11</lastmod>
+  </url>
+  <url>
+    <loc>https://landinthailand.studio/en/legal/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://landinthailand.studio/legal/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://landinthailand.studio/en/legal/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://landinthailand.studio/legal/"/>
+    <lastmod>2026-10-11</lastmod>
+  </url>
+</urlset>

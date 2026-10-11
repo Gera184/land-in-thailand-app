@@ -20,6 +20,8 @@ import { usePrefersReducedMotion } from '@/hooks/use-prefers-reduced-motion';
 
 interface Image {
 	src: string;
+	/** Optional: responsive sources for a photo tile (tiles are at most ~46vw before the zoom) */
+	srcSet?: string;
 	alt?: string;
 	/** Optional: poster for portrait screens (used with `video`) */
 	mobileSrc?: string;
@@ -127,12 +129,14 @@ function PhotoTile({ image, index, load }: { image: Image; index: number; load: 
 	return (
 		// eslint-disable-next-line @next/next/no-img-element
 		<img
-			src={load ? image.src || '/placeholder.svg' : undefined}
+			src={load ? image.src : undefined}
+			srcSet={load ? image.srcSet : undefined}
+			sizes={image.srcSet ? '(max-aspect-ratio: 1/1) 46vw, 35vw' : undefined}
 			alt={image.alt || `Parallax image ${index + 1}`}
 			decoding="async"
 			onLoad={() => setShown(true)}
 			className={cn(
-				'zp-photo h-full w-full object-cover opacity-0 transition-opacity duration-700 ease-out',
+				'zp-photo h-full w-full object-cover opacity-0 transition-opacity duration-400 ease-out',
 				shown && 'opacity-100',
 			)}
 		/>

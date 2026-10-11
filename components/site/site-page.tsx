@@ -1,3 +1,5 @@
+import { preload } from "react-dom";
+
 import { CONTENT, type Locale } from "@/lib/content";
 import { EMAIL, PHONE_TEL } from "@/lib/site";
 import { Header } from "./header";
@@ -10,6 +12,10 @@ import { Cost, Faq, Footer, Intro, Marquee, Pricing, Promises, Services, Visas }
 /** The full one-page site in the given language. */
 export function SitePage({ locale }: { locale: Locale }) {
   const c = CONTENT[locale];
+  // The opening scene's poster is the first thing painted (the LCP image): fetch it at once,
+  // on this page only
+  preload("/media/hero-mobile.webp", { as: "image", type: "image/webp", media: "(max-aspect-ratio: 1/1)", fetchPriority: "high" });
+  preload("/media/hero-desktop.webp", { as: "image", type: "image/webp", media: "(min-aspect-ratio: 1/1)", fetchPriority: "high" });
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",

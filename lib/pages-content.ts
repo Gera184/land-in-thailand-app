@@ -103,7 +103,7 @@ const legal: Record<Locale, InfoPage> = {
         heading: "מדיניות פרטיות",
         paragraphs: [
           ...(businessHe ? [`האחראי למידע: ${businessHe}. פניות בנושא פרטיות: support@landinthailand.studio.`] : []),
-          "האתר אינו כולל טפסים, אינו משתמש בעוגיות (cookies) ואינו כולל כלי ניתוח או פרסום. עם זאת, כמו בכל אתר, שרתי האחסון (GitHub Pages של חברת Microsoft, ארה״ב) ושירות התמונות (Unsplash) מקבלים באופן טכני את כתובת ה-IP, סוג הדפדפן ופרטי הבקשה שלכם. האתר שומר בדפדפן, למשך הגלישה בלבד, הגדרות תצוגה טכניות (sessionStorage) לתפעול התפריט והמעברים; הן אינן נשלחות אלינו.",
+          "האתר אינו כולל טפסים, אינו משתמש בעוגיות (cookies) ואינו כולל כלי ניתוח או פרסום. עם זאת, כמו בכל אתר, שרתי האחסון (GitHub Pages של חברת Microsoft, ארה״ב) מקבלים באופן טכני את כתובת ה-IP, סוג הדפדפן ופרטי הבקשה שלכם. כל התמונות, הגופנים והסרטונים מוגשים מהאתר עצמו. האתר שומר בדפדפן, למשך הגלישה בלבד, הגדרות תצוגה טכניות (sessionStorage) לתפעול התפריט והמעברים; הן אינן נשלחות אלינו.",
           "פנייה בוואטסאפ עוברת דרך שירות WhatsApp של חברת Meta, שחלים עליו תנאי השימוש ומדיניות הפרטיות שלו. מסירת פרטים אלינו היא מרצונכם ואינה חובה, אך בלעדיהם לא נוכל לטפל בפנייה.",
           "המידע שתמסרו (שם, פרטי קשר, פרטי המעבר ובמידת הצורך מסמכים כגון דרכון) ישמש רק לטיפול בפנייה ולמתן השירות. נעביר מידע רק לגורמים הנדרשים לשירות (למשל משרדי הגירה, בעלי דירות, בתי ספר, בנקים וחברות ביטוח, ובכלל זה בתאילנד) ובהסכמתכם, ולכן הוא עשוי להיות מועבר ומעובד מחוץ לישראל. איננו מוכרים מידע אישי.",
           "לא נשלח אליכם הודעות פרסומיות בלי הסכמה מפורשת מראש, ותוכלו לבקש הסרה בכל עת.",
@@ -141,7 +141,7 @@ const legal: Record<Locale, InfoPage> = {
       {
         heading: "מגבלות ידועות ופנייה בנושא נגישות",
         paragraphs: [
-          "האתר טרם נבדק עם קוראי מסך בפועל (כגון VoiceOver ו-NVDA). חלק מהתמונות מגיעות משירות חיצוני (Unsplash) וייתכן שאינן נגישות במלואן.",
+          "האתר טרם נבדק עם קוראי מסך בפועל (כגון VoiceOver ו-NVDA).",
           `${ACCESSIBILITY_COORDINATOR.he ? `רכז/ת הנגישות: ${ACCESSIBILITY_COORDINATOR.he}. ` : ""}נתקלתם בבעיית נגישות? אפשר לפנות בוואטסאפ או בטלפון 054-275-8427, או באימייל support@landinthailand.studio. נשמח לקבל משוב ונטפל בכל פנייה בהקדם.`,
         ],
       },
@@ -159,7 +159,7 @@ const legal: Record<Locale, InfoPage> = {
         heading: "Privacy policy",
         paragraphs: [
           ...(businessEn ? [`Responsible for your information: ${businessEn}. Privacy requests: support@landinthailand.studio.`] : []),
-          "This site has no forms, uses no cookies and has no analytics or advertising tools. Like any website, though, our hosting (GitHub Pages, Microsoft, USA) and our image provider (Unsplash) technically receive your IP address, browser type and request details. The site also keeps technical display settings in your browser's session storage for the current visit only (to run the menu and page transitions); these are never sent to us.",
+          "This site has no forms, uses no cookies and has no analytics or advertising tools. Like any website, though, our hosting (GitHub Pages, Microsoft, USA) technically receives your IP address, browser type and request details. All images, fonts and videos are served from this site itself. The site also keeps technical display settings in your browser's session storage for the current visit only (to run the menu and page transitions); these are never sent to us.",
           "Contacting us on WhatsApp goes through Meta's WhatsApp service, which has its own terms and privacy policy. Giving us your details is voluntary, but without them we can't handle your enquiry.",
           "What you send us (name, contact details, details of your move and, where needed, documents such as a passport) is used only to handle your enquiry and deliver the service. We pass information only to parties needed for the service (such as immigration offices, landlords, schools, banks and insurers, including in Thailand) and with your consent, so it may be transferred and processed outside Israel. We don't sell personal information.",
           "We won't send you promotional messages without your explicit prior consent, and you can opt out at any time.",
@@ -197,7 +197,7 @@ const legal: Record<Locale, InfoPage> = {
       {
         heading: "Known limitations and accessibility contact",
         paragraphs: [
-          "The site hasn't yet been tested with real screen readers (such as VoiceOver and NVDA). Some images come from an external service (Unsplash) and may not be fully accessible.",
+          "The site hasn't yet been tested with real screen readers (such as VoiceOver and NVDA).",
           `${ACCESSIBILITY_COORDINATOR.en ? `Accessibility coordinator: ${ACCESSIBILITY_COORDINATOR.en}. ` : ""}Found an accessibility problem? Reach us on WhatsApp or by phone at 054-275-8427, or by email at support@landinthailand.studio. We welcome feedback and will handle every request promptly.`,
         ],
       },

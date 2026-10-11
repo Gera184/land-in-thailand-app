@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   images: { unoptimized: true },
   // Styles arrive inside the HTML, so the first paint doesn't wait for a CSS request
-  experimental: { inlineCss: true },
+  experimental: { inlineCss: true, globalNotFound: true },
   turbopack: {
     rules: {
       "*.css": {

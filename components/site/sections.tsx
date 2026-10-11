@@ -121,7 +121,7 @@ export function Services({ c }: P) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={photo("pool", { w: 900 })}
-              srcSet={photoSet("pool", [600, 1100])}
+              srcSet={photoSet("pool")}
               sizes="(min-width: 960px) 40vw, 100vw"
               width={1100}
               height={740}

@@ -6,23 +6,23 @@ import { ZoomParallax } from "@/components/ui/zoom-parallax";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import type { Content } from "@/lib/content";
 import { waLink } from "@/lib/site";
-import { photo } from "@/lib/photos";
+import { photo, photoSet } from "@/lib/photos";
 import { Rich } from "./rich";
 import { WhatsAppIcon } from "./icons";
 
 /* Centre tile (index 0) is the lagoon video; it zooms 4× to fill the screen. */
 const TILE_SOURCES = [
   {
-    src: "/media/hero-desktop.jpg",
-    mobileSrc: "/media/hero-mobile.jpg",
+    src: "/media/hero-desktop.webp",
+    mobileSrc: "/media/hero-mobile.webp",
     video: { desktop: "/media/hero-desktop.mp4", mobile: "/media/hero-mobile.mp4", startOn: "scroll" as const },
   },
-  { src: photo("bangkok", { w: 700, q: 50 }) },
-  { src: photo("chiangmai", { w: 700, q: 50 }) },
-  { src: photo("phuket", { w: 700, q: 50 }) },
-  { src: photo("monks", { w: 600, q: 50 }) },
-  { src: photo("samui", { w: 800, q: 50 }) },
-  { src: photo("phangan", { w: 500, q: 50 }) },
+  { src: photo("bangkok", { w: 1200 }), srcSet: photoSet("bangkok") },
+  { src: photo("chiangmai", { w: 1200 }), srcSet: photoSet("chiangmai") },
+  { src: photo("phuket", { w: 1200 }), srcSet: photoSet("phuket") },
+  { src: photo("monks", { w: 1200 }), srcSet: photoSet("monks") },
+  { src: photo("samui", { w: 1200 }), srcSet: photoSet("samui") },
+  { src: photo("phangan", { w: 1200 }), srcSet: photoSet("phangan") },
 ];
 
 /**

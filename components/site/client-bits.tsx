@@ -69,8 +69,10 @@ export function MarqueeToggle({ pause, play }: { pause: string; play: string }) 
 /** Sticky WhatsApp pill on phones: visible after the opening scene, hidden over the footer. */
 export function MobileCta({ c }: { c: Pick<Content, "mobileCta" | "waDefault"> }) {
   const [visible, setVisible] = React.useState(false);
+  const ref = React.useRef<HTMLAnchorElement>(null);
 
   React.useEffect(() => {
+    const el = ref.current;
     const hero = document.querySelector<HTMLElement>("[data-hero]");
     // Hidden over the footer, which has its own WhatsApp call to action
     const covers = [...document.querySelectorAll<HTMLElement>(".site-footer")];
@@ -82,7 +84,9 @@ export function MobileCta({ c }: { c: Pick<Content, "mobileCta" | "waDefault"> }
         const r = el.getBoundingClientRect();
         return r.top < window.innerHeight && r.bottom > 0;
       });
-      setVisible(window.scrollY > heroEnd && !overFinal);
+      // Never hide it while it holds keyboard focus (focus would drop to <body>)
+      const focused = !!el && document.activeElement === el;
+      setVisible(focused || (window.scrollY > heroEnd && !overFinal));
     };
     const onScroll = () => {
       if (!ticking) {
@@ -92,11 +96,17 @@ export function MobileCta({ c }: { c: Pick<Content, "mobileCta" | "waDefault"> }
     };
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    // Once focus leaves, it can hide again if it should
+    el?.addEventListener("blur", update);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      el?.removeEventListener("blur", update);
+    };
   }, []);
 
   return (
     <a
+      ref={ref}
       className={cn("mobile-cta", visible && "is-visible")}
       href={waLink(c.waDefault)}
       target="_blank"
@@ -112,6 +122,16 @@ export function MobileCta({ c }: { c: Pick<Content, "mobileCta" | "waDefault"> }
 }
 
 type Curtain = { phase: "in" | "out" | "covered"; gate?: string; label: string } | null;
+
+/** A URL fragment as an element id. A malformed one (e.g. "#%") is used as-is instead of throwing. */
+function hashId(hash: string) {
+  const raw = hash.slice(1);
+  try {
+    return decodeURIComponent(raw);
+  } catch {
+    return raw;
+  }
+}
 
 /** sessionStorage key: a page navigating to another page's section hands the curtain over (see the head script in app/document.tsx) */
 const CURTAIN_HANDOFF = "lit:curtain";
@@ -179,7 +199,7 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
 
     // Arriving at /page/#section: land on the section directly. The head script turned smooth
     // scrolling off before the browser's own jump to the hash; jump again once React has laid out.
-    const arriveId = decodeURIComponent(location.hash.slice(1));
+    const arriveId = hashId(location.hash);
     const arriveTarget = arriveId ? document.getElementById(arriveId) : null;
     let handoff: { t: number; label: string } | null = null;
     try {
@@ -275,7 +295,7 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
       }
 
       const link = anyLink;
-      const id = decodeURIComponent(url.hash.slice(1));
+      const id = hashId(url.hash);
       const target = id ? document.getElementById(id) : null;
       if (!target) return;
       e.preventDefault();

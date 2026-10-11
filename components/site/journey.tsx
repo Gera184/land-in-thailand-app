@@ -53,8 +53,8 @@ export function Journey({ c }: { c: Pick<Content, "journey" | "waDefault"> }) {
       <div className="journey-bg" aria-hidden="true">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={photo("boats", { w: 1400, q: 55 })}
-          srcSet={photoSet("boats", [800, 1600], 55)}
+          src={photo("boats", { w: 1400 })}
+          srcSet={photoSet("boats")}
           sizes="100vw"
           width={1600}
           height={1280}
