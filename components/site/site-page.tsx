@@ -1,7 +1,7 @@
 import { preload } from "react-dom";
 
 import { CONTENT, type Locale } from "@/lib/content";
-import { EMAIL, PHONE_TEL } from "@/lib/site";
+import { EMAIL, PHONE_TEL, SITE_URL } from "@/lib/site";
 import { Header } from "./header";
 import { OpeningHero } from "./opening-hero";
 import { Journey } from "./journey";
@@ -19,12 +19,16 @@ export function SitePage({ locale }: { locale: Locale }) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
+    "@id": `${SITE_URL}/#business`,
     name: "Land In Thailand",
+    url: `${SITE_URL}${locale === "he" ? "/" : "/en/"}`,
+    logo: `${SITE_URL}/apple-touch-icon.png`,
+    image: `${SITE_URL}/media/og.jpg`,
     description: c.jsonLdDescription,
     email: EMAIL,
     telephone: PHONE_TEL,
-    areaServed: ["Bangkok", "Phuket", "Chiang Mai", "Koh Samui", "Koh Phangan"],
-    availableLanguage: ["he", "en"],
+    areaServed: ["Bangkok", "Phuket", "Chiang Mai", "Koh Samui", "Koh Phangan"].map((name) => ({ "@type": "City", name })),
+    availableLanguage: ["Hebrew", "English"],
   };
 
   return (
@@ -52,7 +56,7 @@ export function SitePage({ locale }: { locale: Locale }) {
       <Footer c={c} home={locale === "he" ? "/" : "/en/"} />
       <RevealObserver />
       <PassTilt />
-      <AnchorNav homeLabel="Land in Thailand" />
+      <AnchorNav homeLabel="Land In Thailand" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     </>
   );

@@ -330,7 +330,7 @@ const en: Content = {
   meta: {
     title: "Land In Thailand · Relocation to Thailand for Israelis",
     description:
-      "End-to-end relocation support for Israelis moving to Thailand: visa, housing, schools, banking and insurance. Bangkok, Phuket, Chiang Mai, Koh Samui and Koh Phangan.",
+      "Relocation to Thailand for Israelis, in Hebrew: visa, housing, schools, banking and insurance in Bangkok, Phuket, Chiang Mai, Koh Samui and Koh Phangan.",
     ogDescription: "Visa, housing, schools and banking — we make sure your landing in Thailand is a soft one.",
     ogLocale: "en_US",
   },
@@ -356,7 +356,7 @@ const en: Content = {
     languageLabel: "עברית",
   },
   hero: {
-    eyebrow: "Relocation to Thailand · handled end to end",
+    eyebrow: "Relocation to Thailand · in Hebrew, end to end",
     title: "Your new life\nlands in *Thailand.*",
     lede: "Visa, housing, schools, banking and everything in between. You choose the city or the island — we make sure the landing is a soft one.",
     cta: "Book a consultation",
@@ -483,7 +483,7 @@ const en: Content = {
         items: ["A 60-minute consultation on Zoom or by phone", "A recommended city and visa route", "A written plan with a timeline", "Credited toward any package you choose"],
       },
       {
-        name: "Soft landing", for: "Singles and couples", price: "4,900", cta: "See the Soft landing plan", msg: "Hi, I'd like to hear about the Soft landing package",
+        name: "Soft landing", for: "Singles and couples", price: "4,900", cta: "Details", msg: "Hi, I'd like to hear about the Soft landing package",
         items: ["Everything in the mapping call", "Document prep and visa application support", "Airport pickup and temporary housing", "Two days of apartment viewings with our rep", "Negotiation and contract check", "Bank account and local SIM", "30 days of WhatsApp support"],
       },
       {

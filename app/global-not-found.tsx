@@ -18,7 +18,7 @@ export default function GlobalNotFound() {
   return (
     <RootDocument locale="he">
       <main id="main" className="nf">
-        <Link href="/" className="nf-brand" aria-label="Land in Thailand · דף הבית">
+        <Link href="/" className="nf-brand" aria-label="Land In Thailand · דף הבית">
           <BrandMark />
           <span className="brand-word" lang="en">
             Land <em>in</em> Thailand

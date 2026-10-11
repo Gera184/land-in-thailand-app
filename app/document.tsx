@@ -46,7 +46,7 @@ export function buildMetadata(locale: Locale, page?: PageKey): Metadata {
   return {
     metadataBase: new URL(SITE_URL),
     title: page ? PAGE_TITLES[page][locale] : c.meta.title,
-    description: page ? PAGES[page][locale].intro : c.meta.description,
+    description: page ? PAGES[page][locale].description : c.meta.description,
     alternates: {
       canonical: path(locale),
       languages: { he: path("he"), en: path("en"), "x-default": path("he") },
@@ -58,11 +58,17 @@ export function buildMetadata(locale: Locale, page?: PageKey): Metadata {
       url: path(locale),
       // Inner pages share their own title and summary, not the home page's
       title: page ? PAGE_TITLES[page][locale] : c.meta.title,
-      description: page ? PAGES[page][locale].intro : c.meta.ogDescription,
+      description: page ? PAGES[page][locale].description : c.meta.ogDescription,
       images: [{ url: "/media/og.jpg", width: 1200, height: 630, alt: c.meta.title }],
     },
+    // Real files (Google uses a crawlable icon, at least 48px); iOS uses the touch icon
     icons: {
-      icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B1B22'/%3E%3Ccircle cx='32' cy='30' r='11' fill='%23F0502F'/%3E%3Cpath d='M10 44c7-4 14-4 22 0s15 4 22 0' stroke='%235EEAD4' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E",
+      icon: [
+        { url: "/icon.svg", type: "image/svg+xml" },
+        { url: "/icon-48.png", sizes: "48x48", type: "image/png" },
+        { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      ],
+      apple: { url: "/apple-touch-icon.png", sizes: "180x180" },
     },
   };
 }

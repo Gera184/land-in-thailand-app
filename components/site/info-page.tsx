@@ -5,8 +5,33 @@ import { Footer } from "./sections";
 import { AnchorNav, PassTilt, RevealObserver } from "./client-bits";
 import { Eyebrow } from "./eyebrow";
 import { Rich } from "./rich";
+import { EMAIL, PHONE_DISPLAY, PHONE_TEL } from "@/lib/site";
 
 const HOME: Record<Locale, string> = { he: "/", en: "/en/" };
+
+const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const CONTACT = new RegExp(`(${escape(EMAIL)}|${escape(PHONE_DISPLAY)})`);
+
+/** Paragraph text with the contact email and phone number turned into tappable links */
+function Linked({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(CONTACT).map((part, i) =>
+        part === EMAIL ? (
+          <a key={i} href={`mailto:${EMAIL}`} lang="en" dir="ltr">
+            {EMAIL}
+          </a>
+        ) : part === PHONE_DISPLAY ? (
+          <a key={i} href={`tel:${PHONE_TEL}`} dir="ltr">
+            {PHONE_DISPLAY}
+          </a>
+        ) : (
+          part
+        ),
+      )}
+    </>
+  );
+}
 
 /** About / Legal: same header and ticket footer as the home page, with an editorial article between. */
 export function InfoPage({ locale, page }: { locale: Locale; page: PageKey }) {
@@ -54,7 +79,9 @@ export function InfoPage({ locale, page }: { locale: Locale; page: PageKey }) {
               </h2>
               <div className="info-text">
                 {s.paragraphs.map((t) => (
-                  <p key={t}>{t}</p>
+                  <p key={t}>
+                    <Linked text={t} />
+                  </p>
                 ))}
                 {s.list && (
                   <ul role="list">
@@ -71,7 +98,7 @@ export function InfoPage({ locale, page }: { locale: Locale; page: PageKey }) {
       <Footer c={c} home={home} onHome={false} />
       <RevealObserver />
       <PassTilt />
-      <AnchorNav homeLabel="Land in Thailand" />
+      <AnchorNav homeLabel="Land In Thailand" />
     </>
   );
 }

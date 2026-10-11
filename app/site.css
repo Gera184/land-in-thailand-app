@@ -874,3 +874,6 @@ main > section, main > .marquee-wrap, .site-footer { overflow-x: clip; }
 
 /* The panel takes focus (without a ring) when it reopens after a tapped language switch */
 .mobile-menu:focus { outline: none; }
+
+/* Contact links inside the legal text */
+.info-text a { color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; unicode-bidi: isolate; }
