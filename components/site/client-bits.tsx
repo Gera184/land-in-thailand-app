@@ -121,9 +121,9 @@ export function MobileCta({ c }: { c: Pick<Content, "mobileCta" | "waDefault"> }
   );
 }
 
-/** `handoff`: the second half of a cross-page move. The rings already played on the page we left,
- *  so the arriving curtain is plain navy and only lifts (no second ring burst). */
-type Curtain = { phase: "in" | "out" | "covered"; gate?: string; label: string; handoff?: boolean } | null;
+/** `leaving`: a cross-page move's curtain; its rings fade over the end of the sweep so the cover is
+ *  plain navy at the page switch, exactly like the cover the next page opens under. */
+type Curtain = { phase: "in" | "out"; gate?: string; label: string; leaving?: boolean } | null;
 
 /** A URL fragment as an element id. A malformed one (e.g. "#%") is used as-is instead of throwing. */
 function hashId(hash: string) {
@@ -176,7 +176,6 @@ function useShaderReady() {
 const CURTAIN_IN = 560; // two layers sweep up (500ms + 60ms stagger)
 const CURTAIN_HOLD = 160;
 const CURTAIN_OUT = 620; // layers exit upward in reverse order
-const RINGS_FADE = 260; // cross-page: rings fade before the page switch
 const ARRIVE = 900; // destination section settles into place
 
 /**
@@ -187,9 +186,11 @@ const ARRIVE = 900; // destination section settles into place
  * and moves focus to the destination for keyboard users.
  *
  * Links to a section on another page (e.g. the home page's #services from About / Legal) sweep
- * the curtain in, hand it over through sessionStorage and navigate. The new page opens covered
- * (head script), jumps straight to the section — never scrolling through the opening zoom — and
- * sweeps the curtain away.
+ * the curtain in once, hand its label over through sessionStorage and navigate as soon as the
+ * screen is covered. The new page opens under the same navy cover (head script + CSS on <html>,
+ * from its first frame), jumps straight to the section — never scrolling through the opening
+ * zoom — and the cover dissolves. One sweep per move. Targets are prefetched on hover / touch so
+ * the page switch under the cover is short.
  */
 export function AnchorNav({ homeLabel }: { homeLabel: string }) {
   const [curtain, setCurtain] = React.useState<Curtain>(null);
@@ -204,13 +205,8 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
     // scrolling off before the browser's own jump to the hash; jump again once React has laid out.
     const arriveId = hashId(location.hash);
     const arriveTarget = arriveId ? document.getElementById(arriveId) : null;
-    let handoff: { t: number; label: string } | null = null;
-    try {
-      handoff = JSON.parse(sessionStorage.getItem(CURTAIN_HANDOFF) ?? "null");
-    } catch {
-      /* storage blocked or malformed: no handover */
-    }
-    const handedOver = !!handoff && root.classList.contains("curtain-arriving");
+    // The head script validated the handover and put the cover up; the class says it did
+    const handedOver = root.classList.contains("curtain-arriving");
     // While a cross-page curtain covers the screen, nothing under it can take focus
     const pageParts = () => [...document.querySelectorAll<HTMLElement>("#main, .site-header, .site-footer, .skip")];
     const setCovered = (on: boolean) => {
@@ -236,23 +232,26 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
         } catch {}
         if (arriveTarget) arriveTarget.scrollIntoView({ behavior: "instant", block: "start" });
         root.style.scrollBehavior = "";
-        if (!handedOver || !handoff) {
+        if (!handedOver) {
           if (arriveTarget) focusTarget(arriveTarget);
           return;
         }
-        setCurtain({ phase: "covered", label: handoff.label, handoff: true });
-        timers.push(
-          window.setTimeout(() => {
-            if (arriveTarget) arriveTarget.scrollIntoView({ behavior: "instant", block: "start" });
-            setCurtain((c) => (c ? { ...c, phase: "out" } : c));
-            root.classList.remove("curtain-arriving");
-            setCovered(false);
-            if (arriveTarget) focusTarget(arriveTarget);
-            arriveTarget?.classList.add("is-arriving");
-            timers.push(window.setTimeout(() => arriveTarget?.classList.remove("is-arriving"), ARRIVE));
-            timers.push(window.setTimeout(() => setCurtain(null), CURTAIN_OUT));
-          }, 120), // brief: the cover has already been up since the page we left
-        );
+        // The cover dissolves on its own (CSS, from the first frame); once it's gone, give the
+        // page back. It may already be gone if hydration was slow.
+        let done = false;
+        const finish = () => {
+          if (done) return;
+          done = true;
+          root.removeEventListener("animationend", onEnd);
+          root.classList.remove("curtain-arriving");
+          root.style.removeProperty("--curtain-label");
+          setCovered(false);
+          if (arriveTarget) focusTarget(arriveTarget);
+        };
+        const onEnd = (e: AnimationEvent) => e.animationName === "cover-dissolve" && finish();
+        root.addEventListener("animationend", onEnd);
+        if (getComputedStyle(root, "::before").opacity === "0") finish();
+        timers.push(window.setTimeout(finish, 1500)); // backstop
       }, 0),
     );
 
@@ -297,10 +296,10 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
         } catch {
           /* storage blocked: the next page simply opens uncovered */
         }
-        // Once covered, the rings fade out so the cover is plain navy at the page switch (the new
-        // page arrives under that same plain cover), then navigate
-        timers.push(window.setTimeout(() => setCurtain((cur) => (cur ? { ...cur, handoff: true } : cur)), CURTAIN_IN));
-        timers.push(window.setTimeout(() => location.assign(url.href), CURTAIN_IN + RINGS_FADE));
+        // Rings fade over the last part of the sweep; navigate the moment the screen is covered.
+        // The next page opens under the same plain cover, so nothing changes at the switch.
+        timers.push(window.setTimeout(() => setCurtain((cur) => (cur ? { ...cur, leaving: true } : cur)), CURTAIN_IN - 220));
+        timers.push(window.setTimeout(() => location.assign(url.href), CURTAIN_IN));
         // If the navigation never happens (stopped, offline), don't leave the page covered
         timers.push(
           window.setTimeout(() => {
@@ -354,9 +353,36 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
       );
     };
 
+    // Prefetch the page behind a cross-page link as soon as the visitor shows intent, so the
+    // switch under the cover is short (and the home page, idly, from About / Legal)
+    const prefetched = new Set<string>([location.pathname]);
+    const prefetch = (href: string) => {
+      const u = new URL(href, location.href);
+      if (u.origin !== location.origin || prefetched.has(u.pathname)) return;
+      prefetched.add(u.pathname);
+      const link = document.createElement("link");
+      link.rel = "prefetch";
+      link.href = u.pathname;
+      document.head.appendChild(link);
+    };
+    const onIntent = (e: Event) => {
+      const a = (e.target as Element | null)?.closest?.<HTMLAnchorElement>("a[href]");
+      if (a && a.hash && !a.target) prefetch(a.href);
+    };
+    document.addEventListener("pointerover", onIntent, { passive: true });
+    document.addEventListener("touchstart", onIntent, { passive: true });
+    document.addEventListener("focusin", onIntent);
+    if (!document.querySelector("[data-hero]")) {
+      const home = root.lang === "en" ? "/en/" : "/";
+      timers.push(window.setTimeout(() => prefetch(home), 1500));
+    }
+
     document.addEventListener("click", onClick);
     return () => {
       document.removeEventListener("click", onClick);
+      document.removeEventListener("pointerover", onIntent);
+      document.removeEventListener("touchstart", onIntent);
+      document.removeEventListener("focusin", onIntent);
       window.removeEventListener("pageshow", onPageShow);
       setCovered(false);
       timers.forEach((t) => window.clearTimeout(t));
@@ -370,8 +396,7 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
         "nav-curtain",
         curtain?.phase === "in" && "is-in",
         curtain?.phase === "out" && "is-out",
-        curtain?.phase === "covered" && "is-covered",
-        curtain?.handoff && "is-handoff",
+        curtain?.leaving && "is-leaving",
       )}
       aria-hidden="true"
     >
@@ -381,7 +406,7 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
           <ShaderAnimation
             className="absolute inset-0 h-full w-full"
             palette={LAGOON_RINGS}
-            active={!!curtain && !curtain.handoff}
+            active={!!curtain}
             maxPixelRatio={1.5}
             // Every transition starts from the same phase: rings near the centre, blooming out
             // and still on screen as the panels leave (ring radius ≈ fract(time × 0.05) × 5,

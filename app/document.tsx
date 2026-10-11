@@ -96,7 +96,7 @@ export function RootDocument({ locale, children }: { locale: Locale; children: R
             Self-clears after 4s. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `document.documentElement.classList.add("js");try{if(location.hash)document.documentElement.style.scrollBehavior="auto"}catch(e){}try{var d=JSON.parse(sessionStorage.getItem("lit:curtain"));if(d&&Date.now()-d.t<8000&&!matchMedia("(prefers-reduced-motion: reduce)").matches){var r=document.documentElement;r.classList.add("curtain-arriving");setTimeout(function(){r.classList.remove("curtain-arriving")},4000)}}catch(e){}try{if(/^[1k]$/.test(sessionStorage.getItem("lit-menu-open")||"")&&matchMedia("(max-width: 959px)").matches){document.documentElement.classList.add("menu-restore");setTimeout(function(){document.documentElement.classList.remove("menu-restore")},4000)}}catch(e){}`,
+            __html: `document.documentElement.classList.add("js");try{if(location.hash)document.documentElement.style.scrollBehavior="auto"}catch(e){}try{var d=JSON.parse(sessionStorage.getItem("lit:curtain"));if(d&&Date.now()-d.t<8000&&!matchMedia("(prefers-reduced-motion: reduce)").matches){var r=document.documentElement;r.style.setProperty("--curtain-label",JSON.stringify(String(d.label||"")));r.classList.add("curtain-arriving");setTimeout(function(){r.classList.remove("curtain-arriving")},4000)}}catch(e){}try{if(/^[1k]$/.test(sessionStorage.getItem("lit-menu-open")||"")&&matchMedia("(max-width: 959px)").matches){document.documentElement.classList.add("menu-restore");setTimeout(function(){document.documentElement.classList.remove("menu-restore")},4000)}}catch(e){}`,
           }}
         />
       </head>

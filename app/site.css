@@ -665,17 +665,31 @@ main > section, main > .marquee-wrap, .site-footer { overflow-x: clip; }
    reverse order while the destination section rises into place. Transforms only. */
 .nav-curtain { position: fixed; inset: 0; z-index: 70; pointer-events: none; display: grid; place-items: center; overflow: hidden; }
 .nav-curtain:not(.is-in):not(.is-out):not(.is-covered) { visibility: hidden; }
-/* Cross-page arrival: fully covered from first paint until the sweep-out */
-:root.curtain-arriving .nav-curtain { visibility: visible !important; } /* must beat the idle-hidden rule above */
-/* Until the arriving page's curtain is painted, the page paints navy (never a white flash) */
-:root.curtain-arriving, :root.curtain-arriving body { background: var(--ink); }
-:root.curtain-arriving body > :not(.nav-curtain) { visibility: hidden; }
-/* Arriving half of a cross-page move: plain navy, no second ring burst */
-.nav-curtain canvas { transition: opacity .25s ease; }
-.nav-curtain.is-handoff canvas { opacity: 0; }
-:root.curtain-arriving .nav-curtain:not(.is-out) .curtain-layer,
-.nav-curtain.is-covered .curtain-layer { transform: translateY(0); border-radius: 0; }
-.nav-curtain.is-covered .curtain-mask > * { transform: none; }
+/* Cross-page arrival. The page we left swept the curtain in; this page opens under the same
+   navy cover with the same section name and the cover only dissolves — one sweep per move, never
+   a second wave. It's painted on <html> itself (head script adds the class and the label), so it
+   is there from the very first frame, before any of <body> has arrived. */
+:root.curtain-arriving::before,
+:root.curtain-arriving::after {
+  position: fixed; inset: 0; z-index: 80; pointer-events: none;
+  animation: cover-dissolve .5s cubic-bezier(.33, 0, .2, 1) .12s forwards;
+}
+:root.curtain-arriving::before { content: ""; background: var(--ink); }
+/* The name goes a little sooner than the navy, so it never lingers over the new page */
+:root.curtain-arriving::after {
+  content: var(--curtain-label, "");
+  display: grid; place-items: center; padding: 0 var(--gutter); text-align: center;
+  color: var(--on-dark); font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(2.6rem, 1.8rem + 3vw, 4.6rem); line-height: 1;
+  text-shadow: 0 2px 24px rgba(11, 27, 34, .8);
+  animation-duration: .3s;
+}
+@keyframes cover-dissolve { to { opacity: 0; visibility: hidden; } }
+/* …while the destination section settles in underneath */
+:root.curtain-arriving :target { animation: arrive .9s cubic-bezier(.16, 1, .3, 1) .12s both; }
+/* Leaving half: the rings fade over the end of the sweep (no hard cut at the page switch) */
+.nav-curtain canvas { transition: opacity .2s ease; }
+.nav-curtain.is-leaving canvas { opacity: 0; }
 .curtain-layer-2 { overflow: hidden; } /* the shader canvas rides inside the navy layer */
 .curtain-label { text-shadow: 0 2px 24px rgba(11, 27, 34, .8); }
 .curtain-layer {
