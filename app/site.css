@@ -671,7 +671,8 @@ main > section, main > .marquee-wrap, .site-footer { overflow-x: clip; }
 :root.curtain-arriving, :root.curtain-arriving body { background: var(--ink); }
 :root.curtain-arriving body > :not(.nav-curtain) { visibility: hidden; }
 /* Arriving half of a cross-page move: plain navy, no second ring burst */
-.nav-curtain.is-handoff canvas { visibility: hidden; }
+.nav-curtain canvas { transition: opacity .25s ease; }
+.nav-curtain.is-handoff canvas { opacity: 0; }
 :root.curtain-arriving .nav-curtain:not(.is-out) .curtain-layer,
 .nav-curtain.is-covered .curtain-layer { transform: translateY(0); border-radius: 0; }
 .nav-curtain.is-covered .curtain-mask > * { transform: none; }

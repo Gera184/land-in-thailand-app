@@ -176,6 +176,7 @@ function useShaderReady() {
 const CURTAIN_IN = 560; // two layers sweep up (500ms + 60ms stagger)
 const CURTAIN_HOLD = 160;
 const CURTAIN_OUT = 620; // layers exit upward in reverse order
+const RINGS_FADE = 260; // cross-page: rings fade before the page switch
 const ARRIVE = 900; // destination section settles into place
 
 /**
@@ -250,7 +251,7 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
             arriveTarget?.classList.add("is-arriving");
             timers.push(window.setTimeout(() => arriveTarget?.classList.remove("is-arriving"), ARRIVE));
             timers.push(window.setTimeout(() => setCurtain(null), CURTAIN_OUT));
-          }, CURTAIN_HOLD + 140),
+          }, 120), // brief: the cover has already been up since the page we left
         );
       }, 0),
     );
@@ -296,7 +297,10 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
         } catch {
           /* storage blocked: the next page simply opens uncovered */
         }
-        timers.push(window.setTimeout(() => location.assign(url.href), CURTAIN_IN + CURTAIN_HOLD));
+        // Once covered, the rings fade out so the cover is plain navy at the page switch (the new
+        // page arrives under that same plain cover), then navigate
+        timers.push(window.setTimeout(() => setCurtain((cur) => (cur ? { ...cur, handoff: true } : cur)), CURTAIN_IN));
+        timers.push(window.setTimeout(() => location.assign(url.href), CURTAIN_IN + RINGS_FADE));
         // If the navigation never happens (stopped, offline), don't leave the page covered
         timers.push(
           window.setTimeout(() => {

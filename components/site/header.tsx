@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import { flushSync } from "react-dom";
 
 import { cn } from "@/lib/utils";
 import type { Content } from "@/lib/content";
@@ -136,6 +137,21 @@ export function Header({
     const href = e.currentTarget.href;
     setMenuLeaving(true); // items slide out; the panel stays
     window.setTimeout(() => window.location.assign(href), 230);
+  };
+
+  // A menu link starts the gate-change curtain: keep the menu up until the curtain covers the
+  // screen, then drop it instantly underneath (otherwise its own close wipe plays over the curtain
+  // and the move looks like two effects). Reduced motion: close at once, there's no curtain.
+  const closeMenuForJump = () => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return setMenuOpen(false);
+    window.setTimeout(() => {
+      // Synchronously, so the page is un-inerted before the jump focuses its target
+      flushSync(() => {
+        setMenuInstant(true);
+        setMenuOpen(false);
+      });
+      window.setTimeout(() => setMenuInstant(false), 60);
+    }, 540); // just before CURTAIN_IN (560) in client-bits.tsx, while the curtain covers
   };
 
   // Back/forward cache: a page restored after switching language from the menu comes back
@@ -301,7 +317,7 @@ export function Header({
         <ol className="mobile-menu-list" role="list">
           {c.header.nav.map((n, i) => (
             <li key={n.href} style={{ "--i": i } as React.CSSProperties}>
-              <a href={hrefFor(n.href)} onClick={() => setMenuOpen(false)}>
+              <a href={hrefFor(n.href)} onClick={closeMenuForJump}>
                 <span className="gate" lang="en" aria-hidden="true">
                   {String(i + 1).padStart(2, "0")}
                 </span>
