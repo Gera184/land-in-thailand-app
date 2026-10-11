@@ -3,12 +3,12 @@ import { ChevronDown, Plane } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import type { Content } from "@/lib/content";
-import { EMAIL, PHONE_DISPLAY, SOCIALS, waLink } from "@/lib/site";
+import { EMAIL, PHONE_DISPLAY, SOCIALS, waLink, type SocialName } from "@/lib/site";
 import { photo, photoSet } from "@/lib/photos";
 import { SERVICE_ICONS, WhatsAppIcon } from "./icons";
 import { Rich } from "./rich";
 import { FooterClocks } from "./footer-bits";
-import BeamWordmarkFooter, { type SocialIcon } from "@/components/ui/beam-wordmark-footer";
+import BeamWordmarkFooter from "@/components/ui/beam-wordmark-footer";
 import { Eyebrow } from "./eyebrow";
 import { MarqueeToggle } from "./client-bits";
 
@@ -310,7 +310,8 @@ export function Faq({ c }: P) {
 }
 
 /** Line icons in the footer component's own style (24×24, 1.5 stroke) */
-const SOCIAL_ICONS: Record<string, React.ReactNode> = {
+// Every network in SOCIALS must have an icon here (the Record type enforces it)
+const SOCIAL_ICONS: Record<SocialName, React.ReactNode> = {
   Instagram: "instagram",
   TikTok: (
     <path
@@ -365,12 +366,13 @@ export function Footer({ c, home, onHome = true }: P & { home: string; onHome?: 
       fontWord='var(--font-karantina), "Arial Narrow", sans-serif'
       wordWeight={700}
       wordLang="en"
+      year={Number(process.env.BUILD_YEAR)}
       cut={0.1}
       // Only networks with a real URL (no dead links in the tab order)
       socials={SOCIALS.filter((s) => s.href).map((s) => ({
         label: s.name,
         href: s.href,
-        icon: SOCIAL_ICONS[s.name] as SocialIcon | React.ReactNode,
+        icon: SOCIAL_ICONS[s.name],
       }))}
       credits={[
         { label: f.tag },

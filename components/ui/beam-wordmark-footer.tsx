@@ -251,11 +251,11 @@ const CSS =
   ".bwf-intro{grid-column:1 / -1}" +
   ".bwf-label{font-size:12px;line-height:1;letter-spacing:.01em;color:rgb(var(--bwf-acc));padding-bottom:13px;position:relative;display:block}" +
   ".bwf-label::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,rgba(var(--bwf-acc),.55),rgba(var(--bwf-acc),.28));transform-origin:0 50%;transform:scaleX(var(--bwf-line,1));transition:transform 1.1s cubic-bezier(.2,.7,.1,1) var(--bwf-d,0ms)}" +
-  ".bwf[data-in='false'] .bwf-label::after{--bwf-line:0}" +
+  ".js .bwf[data-in='false'] .bwf-label::after{--bwf-line:0}" +
   ".bwf-col{min-width:0}" +
   ".bwf-col:nth-child(1),.bwf-intro+.bwf-col{max-width:420px}" +
   ".bwf-fade{transition:opacity .9s ease var(--bwf-d,0ms),translate .9s cubic-bezier(.2,.7,.1,1) var(--bwf-d,0ms)}" +
-  ".bwf[data-in='false'] .bwf-fade{opacity:0;translate:0 14px}" +
+  ".js .bwf[data-in='false'] .bwf-fade{opacity:0;translate:0 14px}" +
   // Socials: glassy squares with a lit top edge.
   ".bwf-socials{display:flex;gap:16px;margin-top:13px}" +
   ".bwf-soc{position:relative;width:31px;height:31px;display:grid;place-items:center;border-radius:5px;color:rgba(var(--bwf-ink-rgb),.62);background:linear-gradient(180deg,rgba(var(--bwf-ink-rgb),.09),rgba(var(--bwf-ink-rgb),.025));box-shadow:inset 0 0 0 1px rgba(var(--bwf-ink-rgb),.16),inset 0 1px 0 rgba(var(--bwf-ink-rgb),.14),0 6px 14px -8px rgba(0,0,0,.8);transition:color .25s,box-shadow .35s,translate .35s cubic-bezier(.2,.8,.2,1),background .35s}" +
@@ -297,7 +297,7 @@ const CSS =
   ".bwf-word-box{padding:0 clamp(20px,6cqw,88px);max-width:1120px;margin:0 auto;box-sizing:border-box;direction:ltr}" +
   ".bwf-word-in{display:inline-flex;white-space:nowrap;font-family:var(--bwf-wfont);font-weight:var(--bwf-ww);line-height:1;letter-spacing:-.045em;user-select:none;-webkit-user-select:none;direction:ltr}" +
   ".bwf-lw{display:inline-block;translate:0 0;transition:translate 1.25s cubic-bezier(.16,.84,.2,1) var(--bwf-d,0ms)}" +
-  ".bwf[data-in='false'] .bwf-lw{translate:0 85%}" +
+  ".js .bwf[data-in='false'] .bwf-lw{translate:0 85%}" +
   ".bwf-l{display:inline-block;cursor:pointer;color:transparent;-webkit-background-clip:text;background-clip:text;background-repeat:no-repeat;background-size:var(--bwf-rw) var(--bwf-rh);background-position:calc(var(--bwf-x) * -1) calc(var(--bwf-y) * -1);" +
   "background-image:radial-gradient(circle 22cqw at var(--bwf-px) var(--bwf-py),rgba(var(--bwf-lit),calc(var(--bwf-g) * .85)),transparent 70%)," +
   "linear-gradient(var(--bwf-ang),transparent calc(var(--bwf-b) - 9%),rgba(var(--bwf-lit),.55) calc(var(--bwf-b) - 1.5%),rgba(var(--bwf-lit),.7) var(--bwf-b),rgba(var(--bwf-lit),.2) calc(var(--bwf-b) + 3.5%),transparent calc(var(--bwf-b) + 8%))," +

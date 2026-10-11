@@ -9,7 +9,6 @@ Software (MIT licence unless noted)
 - React, React DOM — © Meta Platforms, Inc. and affiliates
 - Framer Motion — © Framer B.V.
 - Tailwind CSS — © Tailwind Labs, Inc.
-- shadcn/ui — © shadcn
 - lucide-react — ISC licence, © Lucide Contributors
 - cn — MIT
 

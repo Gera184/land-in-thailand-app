@@ -10,17 +10,17 @@ export const SITE_URL = "https://landinthailand.studio";
 
 export const waLink = (msg: string) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
 
-export const PHOTO_CREDITS =
-  "Braden Jarvis, Bharath Mohan, Michael Schofield, Yavor Punchev, Max Böttinger, Rachael Annabelle, big.tiny.belly";
-
 /**
  * Footer social links. TODO: add your Instagram / TikTok / Facebook page addresses —
  * until an `href` is set, that item shows (with its hover icon) but isn't a link.
  */
-export const SOCIALS: { name: string; image: string; href?: string }[] = [
-  { name: "Instagram", image: "/media/social/instagram.svg", href: undefined },
-  { name: "TikTok", image: "/media/social/tiktok.svg", href: undefined },
-  { name: "Facebook", image: "/media/social/facebook.svg", href: undefined },
-  { name: "WhatsApp", image: "/media/social/whatsapp.svg", href: `https://wa.me/${WA_NUMBER}` },
-  { name: "Email", image: "/media/social/gmail.svg", href: `mailto:${EMAIL}` },
+export type SocialName = "Instagram" | "TikTok" | "Facebook" | "WhatsApp" | "Email";
+
+/** Social links; an entry without an href is not shown */
+export const SOCIALS: { name: SocialName; href?: string }[] = [
+  { name: "Instagram", href: undefined },
+  { name: "TikTok", href: undefined },
+  { name: "Facebook", href: undefined },
+  { name: "WhatsApp", href: `https://wa.me/${WA_NUMBER}` },
+  { name: "Email", href: `mailto:${EMAIL}` },
 ];

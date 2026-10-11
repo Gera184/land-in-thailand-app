@@ -24,6 +24,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # next build no longer runs ESLint, so lint here before anything ships
+      - run: npm run lint
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

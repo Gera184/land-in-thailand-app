@@ -42,13 +42,11 @@ export type Content = {
     switchHref: string;
     switchLang: Locale;
     switchAria: string;
-    /** This locale's home path ("/" or "/en/") */
-    home: string;
     menu: string;
     closeMenu: string;
     languageLabel: string;
   };
-  hero: { eyebrow: string; title: string; lede: string; cta: string; secondary: string; scrollAria: string; videoPause: string; videoPlay: string; tileAlts: string[] };
+  hero: { eyebrow: string; title: string; lede: string; cta: string; secondary: string; videoPause: string; videoPlay: string; tileAlts: string[] };
   intro: { eyebrow: string; title: string; lead: string; pains: string[] };
   pass: { aria: string; label: string; from: string; to: string; stamp: string; meta: [string, string][] };
   services: { eyebrow: string; title: string; featureAlt: string; items: { icon: ServiceIcon; title: string; body: string }[] };
@@ -118,7 +116,6 @@ const he: Content = {
     switchHref: "/en/",
     switchLang: "en",
     switchAria: "English version",
-    home: "/",
     menu: "תפריט",
     closeMenu: "סגירת התפריט",
     languageLabel: "English",
@@ -129,7 +126,6 @@ const he: Content = {
     lede: "ויזה, דירה, בתי ספר, בנק וכל מה שביניהם. אתם בוחרים את העיר או האי — אנחנו דואגים שהנחיתה תהיה רכה.",
     cta: "לתיאום שיחת ייעוץ",
     secondary: "איך זה עובד",
-    scrollAria: "גללו כדי לנחות",
     videoPause: "השהיית הסרטון",
     videoPlay: "הפעלת הסרטון",
     tileAlts: [
@@ -355,7 +351,6 @@ const en: Content = {
     switchHref: "/",
     switchLang: "he",
     switchAria: "גרסה בעברית",
-    home: "/en/",
     menu: "Menu",
     closeMenu: "Close menu",
     languageLabel: "עברית",
@@ -366,7 +361,6 @@ const en: Content = {
     lede: "Visa, housing, schools, banking and everything in between. You choose the city or the island — we make sure the landing is a soft one.",
     cta: "Book a consultation",
     secondary: "How it works",
-    scrollAria: "Scroll to land",
     videoPause: "Pause video",
     videoPlay: "Play video",
     tileAlts: [

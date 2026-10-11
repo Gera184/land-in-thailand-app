@@ -210,7 +210,11 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
     const handedOver = !!handoff && root.classList.contains("curtain-arriving");
     // While a cross-page curtain covers the screen, nothing under it can take focus
     const pageParts = () => [...document.querySelectorAll<HTMLElement>("#main, .site-header, .site-footer, .skip")];
-    const setCovered = (on: boolean) => pageParts().forEach((el) => (el.inert = on));
+    const setCovered = (on: boolean) => {
+      pageParts().forEach((el) => (el.inert = on));
+      // Lets the mobile menu's cleanup know not to un-inert the page under the curtain
+      root.classList.toggle("lit-covered", on);
+    };
     // Keyboard and screen-reader users continue from the section they asked for
     const focusTarget = (el: HTMLElement) => {
       if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
@@ -291,6 +295,14 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
           /* storage blocked: the next page simply opens uncovered */
         }
         timers.push(window.setTimeout(() => location.assign(url.href), CURTAIN_IN + CURTAIN_HOLD));
+        // If the navigation never happens (stopped, offline), don't leave the page covered
+        timers.push(
+          window.setTimeout(() => {
+            busy.current = false;
+            setCovered(false);
+            setCurtain(null);
+          }, 8000),
+        );
         return;
       }
 
@@ -389,7 +401,7 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
 }
 
 /**
- * Elements marked [data-tilt="N"] (the boarding pass, the footer ticket) lean toward the cursor,
+ * Elements marked [data-tilt="N"] (the boarding pass) lean toward the cursor,
  * up to N degrees, with a soft glare that follows it. Mouse/trackpad only; skipped for touch and
  * reduced motion. Writes CSS variables, no re-renders.
  */

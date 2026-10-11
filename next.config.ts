@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
   // /en/ → out/en/index.html, which every static host serves correctly
   trailingSlash: true,
   images: { unoptimized: true },
+  // Copyright year, fixed at build time (server and client agree; refreshed on every deploy)
+  env: { BUILD_YEAR: String(new Date().getFullYear()) },
   // Styles arrive inside the HTML, so the first paint doesn't wait for a CSS request
   experimental: { inlineCss: true, globalNotFound: true },
   turbopack: {

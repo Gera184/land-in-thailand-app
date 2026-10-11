@@ -1,6 +1,6 @@
 # Land In Thailand — website
 
-Next.js (static export) + TypeScript + Tailwind CSS + shadcn/ui. Hebrew (right-to-left) at `/`, English (left-to-right) at `/en/`.
+Next.js (static export) + TypeScript + Tailwind CSS. Hebrew (right-to-left) at `/`, English (left-to-right) at `/en/`.
 
 ## Run locally
 
@@ -29,7 +29,7 @@ Upload the contents of `out/` to any static host (Netlify drag-and-drop, Vercel,
 | Opening scroll scene (photo collage zooms into the lagoon video) | `components/site/opening-hero.tsx` |
 | The reusable zoom-parallax component | `components/ui/zoom-parallax.tsx` |
 | Page sections | `components/site/*.tsx`, assembled in `components/site/site-page.tsx` |
-| Brand colours, fonts, page styles | `app/globals.css` (shadcn tokens), `app/site.css` |
+| Brand colours, fonts, page styles | `app/site.css` (tokens at the top); `app/globals.css` only loads Tailwind |
 | Hero video + posters | `public/media/` |
 | Every still photo (swap Unsplash → your own here) | `lib/photos.ts` |
 | Prompts for generating matching photos | `docs/image-prompts.md` |

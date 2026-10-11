@@ -77,7 +77,8 @@ export function Header({
     const button = menuButton.current;
     return () => {
       window.clearTimeout(t);
-      behind.forEach((el) => (el.inert = false));
+      // A cross-page curtain may have taken over (it keeps the page inert while covered)
+      if (!root.classList.contains("lit-covered")) behind.forEach((el) => (el.inert = false));
       root.style.overflow = prevOverflow;
       document.removeEventListener("keydown", onKey);
       const active = document.activeElement;
@@ -95,6 +96,11 @@ export function Header({
       quiet = flag === "1";
     } catch {
       /* storage blocked: the menu simply starts closed */
+    }
+    if (reopen && window.matchMedia("(min-width: 960px)").matches) {
+      try {
+        sessionStorage.removeItem("lit-menu-open");
+      } catch {}
     }
     if (!reopen || window.matchMedia("(min-width: 960px)").matches) return;
     const root = document.documentElement;

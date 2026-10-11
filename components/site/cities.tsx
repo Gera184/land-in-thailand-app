@@ -40,6 +40,9 @@ export function Cities({ c: content }: { c: Pick<Content, "cities"> }) {
   }, []);
 
   const isDesktop = () => window.matchMedia("(min-width: 960px)").matches;
+  // One pending label swap at a time (fast hovers would otherwise show an older city's label)
+  const labelTimer = React.useRef<number | undefined>(undefined);
+  React.useEffect(() => () => window.clearTimeout(labelTimer.current), []);
 
   const open = (key: string) => {
     if (key === active) return;
@@ -47,7 +50,8 @@ export function Cities({ c: content }: { c: Pick<Content, "cities"> }) {
     setActive(key);
     setCode({ code: city.code, via: city.via });
     setLabelOn(false);
-    window.setTimeout(() => {
+    window.clearTimeout(labelTimer.current);
+    labelTimer.current = window.setTimeout(() => {
       setLabel(city.thai);
       setLabelOn(true);
     }, 220);

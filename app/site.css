@@ -284,9 +284,6 @@ button { font: inherit; color: inherit; }
 }
 .marquee-toggle:hover { background: var(--ink-2); }
 
-/* ---------- Reveal ---------- */
-
-
 /* ---------- Intro ---------- */
 .intro-grid { display: grid; gap: 40px; }
 @media (min-width: 960px) { .intro-grid { grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; } }
@@ -518,7 +515,7 @@ details[open] > p { animation: open .55s var(--ease-out); }
 .site-footer .bwf-credits b { color: var(--on-dark); }
 
 /* Departure-board clocks */
-.footer-board-label, .footer-label { font-size: .8rem; font-weight: 600; letter-spacing: .08em; color: var(--on-dark-muted); margin-bottom: 16px; }
+.footer-board-label { font-size: .8rem; font-weight: 600; letter-spacing: .08em; color: var(--on-dark-muted); margin-bottom: 16px; }
 .footer-clocks { display: flex; gap: 28px; flex-wrap: wrap; }
 .footer-clock { display: grid; gap: 8px; justify-items: start; }
 .footer-clock-code { font-family: var(--font-display); font-weight: 300; font-size: 1.25rem; letter-spacing: .12em; color: var(--aqua); line-height: 1; }
@@ -720,7 +717,7 @@ main > section, main > .marquee-wrap, .site-footer { overflow-x: clip; }
 .site-header.is-scrolled .nav a.is-current::after { background: var(--accent); }
 
 /* Text links: faint resting underline; a solid one draws in from the reading side on hover */
-.lead a, .plans-note a, .footer-fine a {
+.lead a, .plans-note a {
   text-decoration: none;
   background:
     linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0% 1.5px,
@@ -728,10 +725,10 @@ main > section, main > .marquee-wrap, .site-footer { overflow-x: clip; }
   padding-bottom: 2px; transition: background-size .45s var(--ease-out);
 }
 /* Larger tap area without moving the underline */
-:is(.lead, .plans-note, .footer-fine) a { position: relative; }
-:is(.lead, .plans-note, .footer-fine) a::after { content: ""; position: absolute; inset: -10px -4px; }
-[dir="ltr"] :is(.lead, .plans-note, .footer-fine) a { background-position: 0% 100%, 0 100%; }
-:is(.lead, .plans-note, .footer-fine) a:hover { background-size: 100% 1.5px, 100% 1px; }
+:is(.lead, .plans-note) a { position: relative; }
+:is(.lead, .plans-note) a::after { content: ""; position: absolute; inset: -10px -4px; }
+[dir="ltr"] :is(.lead, .plans-note) a { background-position: 0% 100%, 0 100%; }
+:is(.lead, .plans-note) a:hover { background-size: 100% 1.5px, 100% 1px; }
 
 /* Boarding pass: leans toward the cursor with a soft glare (variables set by PassTilt) */
 .pass { transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .7s var(--ease-out); }

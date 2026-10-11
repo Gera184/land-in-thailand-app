@@ -6,7 +6,7 @@ import { AnchorNav, PassTilt, RevealObserver } from "./client-bits";
 import { Eyebrow } from "./eyebrow";
 import { Rich } from "./rich";
 
-export const HOME: Record<Locale, string> = { he: "/", en: "/en/" };
+const HOME: Record<Locale, string> = { he: "/", en: "/en/" };
 
 /** About / Legal: same header and ticket footer as the home page, with an editorial article between. */
 export function InfoPage({ locale, page }: { locale: Locale; page: PageKey }) {
