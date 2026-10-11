@@ -121,7 +121,9 @@ export function MobileCta({ c }: { c: Pick<Content, "mobileCta" | "waDefault"> }
   );
 }
 
-type Curtain = { phase: "in" | "out" | "covered"; gate?: string; label: string } | null;
+/** `handoff`: the second half of a cross-page move. The rings already played on the page we left,
+ *  so the arriving curtain is plain navy and only lifts (no second ring burst). */
+type Curtain = { phase: "in" | "out" | "covered"; gate?: string; label: string; handoff?: boolean } | null;
 
 /** A URL fragment as an element id. A malformed one (e.g. "#%") is used as-is instead of throwing. */
 function hashId(hash: string) {
@@ -237,7 +239,7 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
           if (arriveTarget) focusTarget(arriveTarget);
           return;
         }
-        setCurtain({ phase: "covered", label: handoff.label });
+        setCurtain({ phase: "covered", label: handoff.label, handoff: true });
         timers.push(
           window.setTimeout(() => {
             if (arriveTarget) arriveTarget.scrollIntoView({ behavior: "instant", block: "start" });
@@ -365,6 +367,7 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
         curtain?.phase === "in" && "is-in",
         curtain?.phase === "out" && "is-out",
         curtain?.phase === "covered" && "is-covered",
+        curtain?.handoff && "is-handoff",
       )}
       aria-hidden="true"
     >
@@ -374,7 +377,7 @@ export function AnchorNav({ homeLabel }: { homeLabel: string }) {
           <ShaderAnimation
             className="absolute inset-0 h-full w-full"
             palette={LAGOON_RINGS}
-            active={!!curtain}
+            active={!!curtain && !curtain.handoff}
             maxPixelRatio={1.5}
             // Every transition starts from the same phase: rings near the centre, blooming out
             // and still on screen as the panels leave (ring radius ≈ fract(time × 0.05) × 5,
