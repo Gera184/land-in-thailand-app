@@ -364,6 +364,7 @@ export function Footer({ c, home, onHome = true }: P & { home: string; onHome?: 
       fontSans='var(--font-plex), system-ui, sans-serif'
       fontWord='var(--font-karantina), "Arial Narrow", sans-serif'
       wordWeight={700}
+      wordLang="en"
       cut={0.1}
       // Only networks with a real URL (no dead links in the tab order)
       socials={SOCIALS.filter((s) => s.href).map((s) => ({

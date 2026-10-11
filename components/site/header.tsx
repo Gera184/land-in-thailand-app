@@ -33,6 +33,9 @@ export function Header({
   const [menuLeaving, setMenuLeaving] = React.useState(false);
   const menuButton = React.useRef<HTMLButtonElement>(null);
   const menuPanel = React.useRef<HTMLDivElement>(null);
+  // Reopened after a tap on the menu's language link: focus the panel itself rather than its
+  // first link, so touch users don't get a keyboard focus ring
+  const quietFocus = React.useRef(false);
   const hrefFor = (h: string) => (inner ? `${home}${h}` : h);
   const langHref = switchHref ?? c.header.switchHref;
 
@@ -50,7 +53,12 @@ export function Header({
       (el) => !el.inert,
     );
     behind.forEach((el) => (el.inert = true));
-    const t = window.setTimeout(() => focusables()[0]?.focus(), 60);
+    const t = window.setTimeout(() => {
+      if (quietFocus.current) {
+        quietFocus.current = false;
+        panel?.focus({ preventScroll: true });
+      } else focusables()[0]?.focus();
+    }, 60);
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMenuOpen(false);
       if (e.key === "Tab") {
@@ -79,8 +87,12 @@ export function Header({
 
   React.useEffect(() => {
     let reopen = false;
+    let quiet = false;
     try {
-      reopen = sessionStorage.getItem("lit-menu-open") === "1";
+      // "1": the switch was tapped or clicked; "k": activated from the keyboard
+      const flag = sessionStorage.getItem("lit-menu-open");
+      reopen = flag === "1" || flag === "k";
+      quiet = flag === "1";
     } catch {
       /* storage blocked: the menu simply starts closed */
     }
@@ -91,6 +103,7 @@ export function Header({
       try {
         sessionStorage.removeItem("lit-menu-open");
       } catch {}
+      quietFocus.current = quiet;
       setMenuInstant(true); // panel is already on screen: no wipe
       setMenuOpen(true);
     }, 0);
@@ -108,7 +121,7 @@ export function Header({
   const switchLanguageFromMenu = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     try {
-      sessionStorage.setItem("lit-menu-open", "1");
+      sessionStorage.setItem("lit-menu-open", e.detail === 0 ? "k" : "1");
     } catch {
       return; // storage blocked: plain navigation, the new page opens with the menu closed
     }
@@ -171,7 +184,8 @@ export function Header({
       ticking = false;
       const y = window.scrollY;
       const heroEnd = hero ? hero.offsetHeight - window.innerHeight : 40;
-      setSolid(!hero || y > Math.max(40, heroEnd));
+      // Solid only once the hero has left the area under the header (not while its last frame is on screen)
+      setSolid(!hero || y > Math.max(40, hero.offsetHeight - 80));
       // A nav jump isn't the visitor scrolling down: keep the header shown and re-baseline,
       // so it only hides again on a real scroll down from the new position
       if (performance.now() - navJumpAt < 600) {
@@ -275,6 +289,7 @@ export function Header({
       className={cn("mobile-menu", menuOpen && "is-open", menuInstant && "is-instant", menuLeaving && "is-leaving")}
       aria-hidden={!menuOpen}
       inert={!menuOpen}
+      tabIndex={-1}
     >
       <nav className="wrap mobile-menu-inner" aria-label={c.header.navAria}>
         <ol className="mobile-menu-list" role="list">

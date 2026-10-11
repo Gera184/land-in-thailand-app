@@ -121,6 +121,8 @@ export type BeamWordmarkFooterProps = {
   /** Font for the wordmark only. Defaults to `fontSans`. */
   fontWord?: string
   wordWeight?: number
+  /** Language of the wordmark text, when it differs from the page's (read by screen readers) */
+  wordLang?: string
   /** `false` holds the beam still (the pointer glow still follows). */
   animate?: boolean
   /** Full-width row above the columns. */
@@ -274,7 +276,7 @@ const CSS =
   ".bwf-aside{margin-top:28px}" +
   // Link columns.
   ".bwf-links{margin-top:13px;display:flex;flex-direction:column;gap:0}" +
-  ".bwf-link{position:relative;display:inline-flex;align-items:center;gap:8px;padding:11.5px 0;margin-block:-5.5px;font-size:14.5px;line-height:21px;color:rgba(var(--bwf-ink-rgb),.78);transition:color .25s}" +
+  ".bwf-link{position:relative;display:inline-flex;align-items:center;gap:8px;padding:6px 0;font-size:14.5px;line-height:21px;color:rgba(var(--bwf-ink-rgb),.78);transition:color .25s}" +
   ".bwf-link-t{display:inline-block;transition:translate .35s cubic-bezier(.2,.8,.2,1)}" +
   ".bwf-link::before{content:'';position:absolute;left:0;top:50%;width:6px;height:1px;margin-top:0;background:rgb(var(--bwf-acc));transform:scaleX(0);transform-origin:0 50%;transition:transform .35s cubic-bezier(.2,.8,.2,1)}" +
   ".bwf-link svg{width:12px;height:12px;opacity:0;translate:-6px 0;color:rgb(var(--bwf-acc));transition:opacity .25s,translate .35s cubic-bezier(.2,.8,.2,1)}" +
@@ -334,6 +336,7 @@ export default function BeamWordmarkFooter({
   fontSans = SANS,
   fontWord,
   wordWeight = 500,
+  wordLang,
   animate = true,
   intro,
   aside,
@@ -411,8 +414,12 @@ export default function BeamWordmarkFooter({
     ro.observe(root)
     let alive = true
     document.fonts?.ready.then(() => alive && schedule())
+    // The display face isn't preloaded: if it arrives after the first fit, fit again with
+    // the real glyph widths (otherwise the fallback's narrower fit clips the last letters)
+    document.fonts?.addEventListener?.("loadingdone", schedule)
     return () => {
       alive = false
+      document.fonts?.removeEventListener?.("loadingdone", schedule)
       window.clearTimeout(first)
       cancelAnimationFrame(frame)
       ro.disconnect()
@@ -657,7 +664,7 @@ export default function BeamWordmarkFooter({
         className="bwf-word"
         style={{ height: size ? wordHeight(size, base, cut) : "calc(" + (0.8 + cut) * 26 + "cqw)" }}
       >
-        <p className="sr-only">{word}</p>
+        <p className="sr-only" lang={wordLang}>{word}</p>
         <div className="bwf-word-box">
           <div ref={innerRef} className="bwf-word-in" aria-hidden="true">
             {letters.map((ch, i) => (
