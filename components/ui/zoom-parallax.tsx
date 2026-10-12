@@ -36,8 +36,6 @@ interface ZoomParallaxProps {
 	className?: string;
 	/** Content layered over the images; a function receives scroll progress (0→1) */
 	children?: React.ReactNode | ((progress: MotionValue<number>) => React.ReactNode);
-	/** Accessible names for the video's pause / play control */
-	videoLabels?: { pause: string; play: string };
 }
 
 /*
@@ -143,9 +141,8 @@ function PhotoTile({ image, index, load }: { image: Image; index: number; load: 
 	);
 }
 
-export function ZoomParallax({ images, className, children, videoLabels }: ZoomParallaxProps) {
+export function ZoomParallax({ images, className, children }: ZoomParallaxProps) {
 	const photosReady = useAfterLoad();
-	// The video tile's playback lives here so its pause control can sit outside the zooming layers
 	const videoImage = images.find((img) => img.video);
 	const video = useHeroVideo(videoImage?.video?.desktop, videoImage?.video?.mobile, {
 		startOn: videoImage?.video?.startOn,
@@ -199,20 +196,6 @@ export function ZoomParallax({ images, className, children, videoLabels }: ZoomP
 					);
 				})}
 				</m.div>
-				{videoLabels && video.playing && !video.ended && (
-					<button
-						type="button"
-						className="media-toggle zp-video-toggle"
-						onClick={video.toggle}
-						aria-label={video.paused ? videoLabels.play : videoLabels.pause}
-					>
-						{video.paused ? (
-							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" /></svg>
-						) : (
-							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor" /></svg>
-						)}
-					</button>
-				)}
 				{typeof children === 'function' ? children(progress) : children}
 			</div>
 		</div>

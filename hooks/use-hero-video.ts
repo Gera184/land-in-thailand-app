@@ -14,32 +14,6 @@ type Options = {
 export function useHeroVideo(desktopVideo?: string, mobileVideo?: string, { startOn = "load" }: Options = {}) {
 	const ref = React.useRef<HTMLVideoElement>(null);
 	const [playing, setPlaying] = React.useState(false);
-	// For the pause control (WCAG 2.2.2): whether playback is paused by the visitor, and whether it has finished
-	const [paused, setPaused] = React.useState(false);
-	const [ended, setEnded] = React.useState(false);
-
-	React.useEffect(() => {
-		const video = ref.current;
-		if (!video) return;
-		const onPause = () => setPaused(true);
-		const onPlay = () => setPaused(false);
-		const onEnded = () => setEnded(true);
-		video.addEventListener("pause", onPause);
-		video.addEventListener("play", onPlay);
-		video.addEventListener("ended", onEnded);
-		return () => {
-			video.removeEventListener("pause", onPause);
-			video.removeEventListener("play", onPlay);
-			video.removeEventListener("ended", onEnded);
-		};
-	}, []);
-
-	const toggle = React.useCallback(() => {
-		const video = ref.current;
-		if (!video) return;
-		if (video.paused) video.play().catch(() => {});
-		else video.pause();
-	}, []);
 
 	React.useEffect(() => {
 		const video = ref.current;
@@ -111,5 +85,5 @@ export function useHeroVideo(desktopVideo?: string, mobileVideo?: string, { star
 		};
 	}, [desktopVideo, mobileVideo, startOn]);
 
-	return { ref, playing, paused, ended, toggle };
+	return { ref, playing };
 }

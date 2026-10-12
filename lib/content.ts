@@ -46,7 +46,7 @@ export type Content = {
     closeMenu: string;
     languageLabel: string;
   };
-  hero: { eyebrow: string; title: string; lede: string; cta: string; secondary: string; videoPause: string; videoPlay: string; tileAlts: string[] };
+  hero: { eyebrow: string; title: string; lede: string; cta: string; secondary: string; tileAlts: string[] };
   intro: { eyebrow: string; title: string; lead: string; pains: string[] };
   pass: { aria: string; label: string; from: string; to: string; stamp: string; meta: [string, string][] };
   services: { eyebrow: string; title: string; featureAlt: string; items: { icon: ServiceIcon; title: string; body: string }[] };
@@ -126,8 +126,6 @@ const he: Content = {
     lede: "ויזה, דירה, בתי ספר, בנק וכל מה שביניהם. אתם בוחרים את העיר או האי — אנחנו דואגים שהנחיתה תהיה רכה.",
     cta: "לתיאום שיחת ייעוץ",
     secondary: "איך זה עובד",
-    videoPause: "השהיית הסרטון",
-    videoPlay: "הפעלת הסרטון",
     tileAlts: [
       "לגונה טורקיז בין צוקי גיר בדרום תאילנד, וסירת זנב ארוך שטה בה",
       "בנגקוק בלילה",
@@ -361,8 +359,6 @@ const en: Content = {
     lede: "Visa, housing, schools, banking and everything in between. You choose the city or the island — we make sure the landing is a soft one.",
     cta: "Book a consultation",
     secondary: "How it works",
-    videoPause: "Pause video",
-    videoPlay: "Play video",
     tileAlts: [
       "A turquoise lagoon between limestone cliffs in southern Thailand, with a longtail boat crossing it",
       "Bangkok at night",

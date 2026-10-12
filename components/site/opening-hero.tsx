@@ -35,7 +35,7 @@ export function OpeningHero({ c }: { c: Pick<Content, "hero" | "waDefault"> }) {
   return (
     <section data-hero aria-labelledby="hero-title">
       <LazyMotion features={domMin} strict>
-        <ZoomParallax images={tiles} className="bg-[#0B1B22]" videoLabels={{ pause: c.hero.videoPause, play: c.hero.videoPlay }}>
+        <ZoomParallax images={tiles} className="bg-[#0B1B22]">
           {(progress) => <OpeningOverlay progress={progress} c={c} />}
         </ZoomParallax>
       </LazyMotion>
