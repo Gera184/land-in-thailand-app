@@ -51,7 +51,7 @@ export type Content = {
   pass: { aria: string; label: string; from: string; to: string; stamp: string; meta: [string, string][] };
   services: { eyebrow: string; title: string; featureAlt: string; items: { icon: ServiceIcon; title: string; body: string }[] };
   journey: { eyebrow: string; title: string; lead: string; cta: string; steps: { when: string; title: string; body: string }[] };
-  cities: { eyebrow: string; title: string; lead: string; marqueePause: string; marqueePlay: string; items: City[] };
+  cities: { eyebrow: string; title: string; lead: string; items: City[] };
   cost: { eyebrow: string; title: string; lead: string; caption: string; note: string; items: { name: string; value: number; ref?: boolean }[] };
   pricing: { eyebrow: string; title: string; badge: string; plans: Plan[]; note: string; noteLink: string; noteMsg: string };
   visas: { eyebrow: string; title: string; lead: string; disclaimer: string; items: { code: string; title: string; body: string }[] };
@@ -186,8 +186,6 @@ const he: Content = {
     eyebrow: "חמישה יעדים",
     title: "איפה תרגישו *בבית?*",
     lead: "כל מקום בתאילנד הוא עולם אחר. הנה ההבדלים בקצרה — ובשיחת הייעוץ נתאים את המקום אליכם.",
-    marqueePause: "עצירת רצועת היעדים",
-    marqueePlay: "הפעלת רצועת היעדים",
     items: [
       {
         key: "bkk", code: "BKK", name: "בנגקוק", thai: "กรุงเทพฯ", tag: "עיר · קריירה · משפחות", photo: PHOTOS.bkk,
@@ -419,8 +417,6 @@ const en: Content = {
     eyebrow: "Five destinations",
     title: "Where will you feel *at home?*",
     lead: "Every place in Thailand is a different world. Here are the differences in short — and on the consultation call we'll match the place to you.",
-    marqueePause: "Pause the destinations ticker",
-    marqueePlay: "Play the destinations ticker",
     items: [
       {
         key: "bkk", code: "BKK", name: "Bangkok", thai: "กรุงเทพฯ", tag: "City · career · families", photo: PHOTOS.bkk,

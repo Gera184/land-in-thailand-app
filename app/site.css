@@ -261,21 +261,6 @@ button { font: inherit; color: inherit; }
 .marquee i { font-style: normal; color: var(--aqua); font-size: clamp(1rem, .9rem + .5vw, 1.3rem); white-space: nowrap; opacity: .9; }
 .marquee i::after { content: "✦"; margin-inline-start: 34px; color: rgba(255, 255, 255, .25); font-size: .8em; }
 @keyframes marquee { to { transform: translateX(50%); } }
-.marquee-wrap { position: relative; overflow: hidden; } /* clips the toggle's navy halo to the band */
-.marquee.is-paused .marquee-track { animation-play-state: paused !important; }
-.media-toggle {
-  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
-  background: rgba(11, 27, 34, .72); color: #fff; border: 1px solid rgba(255, 255, 255, .45);
-  cursor: pointer; transition: background-color .25s, border-color .25s;
-}
-.media-toggle:hover { background: rgba(11, 27, 34, .92); border-color: #fff; }
-.media-toggle svg { width: 18px; height: 18px; }
-.marquee-toggle {
-  position: absolute; inset-inline-start: 12px; top: 50%; translate: 0 -50%; z-index: 1;
-  /* On a solid navy halo so the scrolling names never run under the button or its focus ring */
-  background: var(--ink); box-shadow: 0 0 0 10px var(--ink), 0 0 22px 22px var(--ink);
-}
-.marquee-toggle:hover { background: var(--ink-2); }
 
 /* ---------- Intro ---------- */
 .intro-grid { display: grid; gap: 40px; }
@@ -549,7 +534,6 @@ details[open] > p { animation: open .55s var(--ease-out); }
   .pass-stamp { opacity: .9; transform: rotate(-12deg); }
   .bar-fill { transform: none; }
   .marquee-track { animation: none; }
-  .marquee-toggle { display: none; }
   /* The final frame, whatever the scroll-linked animations say */
   .opening-title, .opening-details { opacity: 1 !important; transform: none !important; }
   .opening-shade { opacity: 1 !important; }

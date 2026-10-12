@@ -10,7 +10,6 @@ import { Rich } from "./rich";
 import { FooterClocks } from "./footer-bits";
 import BeamWordmarkFooter from "@/components/ui/beam-wordmark-footer";
 import { Eyebrow } from "./eyebrow";
-import { MarqueeToggle } from "./client-bits";
 
 type P = { c: Content };
 
@@ -29,7 +28,6 @@ export function Marquee({ c }: P) {
         ))}
       </div>
     </div>
-    <MarqueeToggle pause={c.cities.marqueePause} play={c.cities.marqueePlay} />
     </div>
   );
 }
