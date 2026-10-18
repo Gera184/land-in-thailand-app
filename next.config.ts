@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // AI notes live in CLAUDE.md: stop `next dev` from writing AGENTS.md
+  agentRules: false,
   // Static HTML export: the `out/` folder can be hosted anywhere (Netlify, Vercel, GitHub Pages…)
   output: "export",
   // /en/ → out/en/index.html, which every static host serves correctly

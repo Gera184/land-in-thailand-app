@@ -2,6 +2,10 @@
 
 Next.js (static export) + TypeScript + Tailwind CSS. Hebrew (right-to-left) at `/`, English (left-to-right) at `/en/`.
 
+## Next.js
+
+This project runs Next.js 16.4, which can differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing Next code, and heed deprecation notices.
+
 ## Run locally
 
 ```bash
@@ -32,4 +36,3 @@ Upload the contents of `out/` to any static host (Netlify drag-and-drop, Vercel,
 | Brand colours, fonts, page styles | `app/site.css` (tokens at the top); `app/globals.css` only loads Tailwind |
 | Hero video + posters | `public/media/` |
 | Every still photo (swap Unsplash → your own here) | `lib/photos.ts` |
-| Prompts for generating matching photos | `docs/image-prompts.md` |
