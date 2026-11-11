@@ -21,6 +21,8 @@ npm run build      # writes the finished site to out/
 
 Upload the contents of `out/` to any static host (Netlify drag-and-drop, Vercel, Cloudflare Pages, GitHub Pages).
 
+Live on Hostinger at https://landinthailand.studio: every push to `main` builds and deploys automatically. Build settings in Hostinger: app type `react` (not `next`, which expects a Node server and fails with "No output directory found"), output directory `out`, Node 24, npm. The build uses Webpack (`next build --webpack`) because Hostinger's build sandbox can't start Turbopack's CSS-loader process; Tailwind loads through `postcss.config.mjs`.
+
 ## Where things are
 
 | What | File |
