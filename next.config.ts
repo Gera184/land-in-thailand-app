@@ -12,14 +12,6 @@ const nextConfig: NextConfig = {
   env: { BUILD_YEAR: String(new Date().getFullYear()) },
   // Styles arrive inside the HTML, so the first paint doesn't wait for a CSS request
   experimental: { inlineCss: true, globalNotFound: true },
-  turbopack: {
-    rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
-      },
-    },
-  },
 };
 
 export default nextConfig;
